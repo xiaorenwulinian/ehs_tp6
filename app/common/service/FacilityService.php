@@ -7,7 +7,7 @@ use app\common\library\StringLib;
 use app\common\model\enterprise\CompanyArea;
 use app\common\model\enterprise\Facility;
 use app\common\traits\SingletonTrait;
-use think\Db;
+use think\facade\Db;
 
 
 /**

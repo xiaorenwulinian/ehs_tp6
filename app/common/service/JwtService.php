@@ -2,7 +2,6 @@
 
 namespace app\common\service;
 
-
 use app\common\library\jwt\JwtLib;
 
 /**

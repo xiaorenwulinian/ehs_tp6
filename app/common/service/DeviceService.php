@@ -10,7 +10,7 @@ use app\common\model\enterprise\DeviceRfid;
 use app\common\model\enterprise\DeviceBraceletMachine;
 use app\common\model\enterprise\DeviceCamera;
 use app\common\model\enterprise\DeviceLimitedSpace;
-use think\Db;
+use think\facade\Db;
 
 
 /**

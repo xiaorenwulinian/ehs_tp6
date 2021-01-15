@@ -3,7 +3,6 @@
 namespace app\common\service;
 
 use app\common\model\enterprise\EhsPoint;
-use think\DB;
 
 
 /**

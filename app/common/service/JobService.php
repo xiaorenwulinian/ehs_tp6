@@ -13,7 +13,7 @@ use app\common\model\enterprise\JobSetting;
 use app\common\model\enterprise\Ppe;
 use app\common\model\enterprise\JobPpe;
 use app\common\traits\SingletonTrait;
-use think\Db;
+use think\facade\Db;
 
 
 /**

@@ -2,9 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\JobAbility;
-use app\common\traits\SingletonTrait;
-use think\Db;
+use think\facade\Db;
 
 
 /**

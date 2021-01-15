@@ -2,10 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\library\StringLib;
-use app\common\model\enterprise\JobAvoid;
 use app\common\model\enterprise\Visitor;
-use think\DB;
 use app\common\traits\SingletonTrait;
 
 

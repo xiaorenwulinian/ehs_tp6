@@ -2,10 +2,7 @@
 
 namespace app\common\service;
 
-
-use app\common\model\enterprise\Job;
 use app\common\model\enterprise\RecordCheckPoint;
-use app\common\traits\SingletonTrait;
 
 
 /**

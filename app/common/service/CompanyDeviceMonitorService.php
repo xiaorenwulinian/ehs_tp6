@@ -3,9 +3,6 @@
 namespace app\common\service;
 
 use app\common\model\enterprise\CompanyDeviceMonitor;
-use app\common\model\enterprise\Department;
-use think\DB;
-use app\common\traits\SingletonTrait;
 
 
 /**

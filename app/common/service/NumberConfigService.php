@@ -2,15 +2,11 @@
 
 namespace app\common\service;
 
-use app\common\constant\CommonConstant;
 use app\common\constant\NumberConfigConstant;
 use app\common\library\StringLib;
-use app\common\model\enterprise\CompanyArea;
-use app\common\model\enterprise\CompanyDeviceSetting;
-use app\common\model\enterprise\Facility;
 use app\common\traits\SingletonTrait;
-use think\Db;
-use think\helper\Str;
+use think\facade\Db;
+
 
 
 /**

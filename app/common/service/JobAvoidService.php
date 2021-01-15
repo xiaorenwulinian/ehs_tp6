@@ -3,7 +3,6 @@
 namespace app\common\service;
 
 use app\common\model\enterprise\JobAvoid;
-use think\DB;
 use app\common\traits\SingletonTrait;
 
 

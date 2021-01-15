@@ -5,8 +5,7 @@ namespace app\common\service;
 use app\common\constant\WorkConstant;
 use app\common\library\ArrayLib;
 use app\common\model\enterprise\WorkHigh;
-use think\Db;
-use think\Model;
+use think\facade\Db;
 
 
 /**

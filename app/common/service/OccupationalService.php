@@ -2,14 +2,13 @@
 
 namespace app\common\service;
 
-use app\common\constant\CommonConstant;
 use app\common\library\StringLib;
 use app\common\model\enterprise\CompanyArea;
 use app\common\model\enterprise\Facility;
 use app\common\model\enterprise\Job;
 use app\common\model\enterprise\OcHarmFactor;
 use app\common\model\enterprise\OcTestPlan;
-use think\Db;
+use think\facade\Db;
 
 
 /**

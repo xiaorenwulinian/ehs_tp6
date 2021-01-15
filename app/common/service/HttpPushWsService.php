@@ -6,8 +6,8 @@ namespace app\common\service;
 
 
 use app\push\service\PushBaseService;
-use think\Db;
-use think\Log;
+use think\facade\Db;
+use think\facade\Log;
 
 /**
  *

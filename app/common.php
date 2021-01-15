@@ -170,3 +170,10 @@ if (!function_exists('get_rand_str')) {
         return $tokenvalue;
     }
 }
+
+if (!function_exists('collection')) {
+    function collection($data)
+    {
+        return collect($data);
+    }
+}

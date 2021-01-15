@@ -5,11 +5,10 @@ namespace app\common\service;
 use app\common\constant\UploadConstant;
 use app\common\model\enterprise\Company;
 
-use app\common\library\Auth;
 use app\common\model\enterprise\User;
 use app\common\model\enterprise\UserFollowPhoto;
 use Overtrue\Pinyin\Pinyin;
-use think\Db;
+use think\facade\Db;
 use think\Exception;
 
 class UserService

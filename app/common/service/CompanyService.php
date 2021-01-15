@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use think\DB;
+use think\facade\DB;
 
 class CompanyService {
 

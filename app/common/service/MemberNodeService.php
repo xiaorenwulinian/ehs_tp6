@@ -4,7 +4,7 @@ namespace app\common\service;
 
 
 
-use think\Db;
+use think\facade\Db;
 
 class MemberNodeService
 {

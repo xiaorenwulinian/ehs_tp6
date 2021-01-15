@@ -4,8 +4,8 @@ namespace app\common\service;
 
 use app\common\constant\IntegralConstant;
 use app\common\model\enterprise\User;
-use think\Db;
-use think\Log;
+use think\facade\Db;
+use think\facade\Log;
 
 
 /**
