@@ -4,7 +4,8 @@ namespace app\controller\mobile\v1;
 
 use app\common\library\StringLib;
 use app\common\service\JwtService;
-use app\mobile\controller\MobileBase;
+use app\controller\mobile\MobileBase;
+use think\facade\Db;
 
 class Plan extends MobileBase
 {
@@ -52,23 +53,5 @@ class Plan extends MobileBase
         return $data;
     }
 
-
-    public function detail()
-    {
-
-        $userid = JwtService::getInstance()->getUserIdMobile();
-
-        $user = Db::name('user')->where('id', $userid)->find();
-
-        $company = Db::name('company')
-            ->where('company_id', $user['company_id'])
-            ->find();
-
-        $user['company_name'] = $company['title'];
-        $ret = [
-            'info'    => $user,
-        ];
-        return api_successed($ret);
-    }
 
 }
