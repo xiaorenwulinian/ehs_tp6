@@ -28,6 +28,12 @@ class ApiBase extends BaseController
         //跨域请求检测
         check_cors_request();
 
+        $this->_initialize();
+
+    }
+
+    public function _initialize()
+    {
 
     }
 

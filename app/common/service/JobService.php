@@ -11,6 +11,7 @@ use app\common\model\enterprise\Job;
 use app\common\model\enterprise\JobQualify;
 use app\common\model\enterprise\JobSetting;
 use app\common\model\enterprise\Ppe;
+use app\common\model\enterprise\JobPpe;
 use app\common\traits\SingletonTrait;
 use think\Db;
 
@@ -110,7 +111,7 @@ class JobService {
             ];
         }
 
-        $harm = db('oc_harm_factor')
+        $harm = Db::name('oc_harm_factor')
             ->where('company_id', $companyId)
             ->field(['id', 'name'])
             ->select();
@@ -211,10 +212,6 @@ class JobService {
 
     }
 
-    public function editShow($params)
-    {
-
-    }
 
     public function edit($params)
     {
@@ -898,6 +895,111 @@ class JobService {
         return result_successed($ret);
     }
 
+    public function bindPpe($params)
+    {
+        $job_id = $params['job_id'];
+        $company_id = $params['company_id'];
+        $ppeContent = $params['ppeContent'] ?? [];
+        /*
+         ppeContent : [
+            {
+                'id' : 0,
+                'link_id' :1,
+                'ppe_receive_rate':1,
+            }
+        ]
+         【
+             [
+                'id' =>0,
+                'link_id' =>1,
+                'ppe_receive_rate' =>1,
+            ]
+             [
+                'id' =>1,
+                'link_id' =>2,
+                'ppe_receive_rate' =>1,
+            ]
+        】
+         */
+        if (!empty($ppeContent)) {
+            $hasPpeData = Db::name('job_ppe')
+                ->where('job_id',$job_id)
+                ->column('*','id');
+            $hasIdArr = array_keys($hasPpeData);
+
+            $deleteArr = [];
+
+            $receiptIdArr = [];
+            foreach ($ppeContent as $v) {
+               if ($v['id'] == 0) {
+                   continue;
+               }
+                $receiptIdArr[] = $v['id'];
+            }
+            // 1,2,3 req
+            // 2,3,5 database
+            $diffDeleteId = array_diff($hasIdArr, $hasIdArr);
+            if (!empty($deleteArr)) {
+                Db::name('job_ppe')
+                    ->whereIn('id',$diffDeleteId)
+                    ->delete();
+            }
+
+            foreach ($ppeContent as $v) {
+                if (empty($v['link_id']) || empty($v['ppe_receive_rate'])) {
+                    continue;
+                }
+                if ($v['id'] == 0) {
+                    continue;
+                }
+                Db::name('job_ppe')
+                    ->where('job_id',$job_id)
+                    ->where('id',$v['id'])
+                    ->update([
+                        'link_id' => $v['link_id'],
+                        'ppe_receive_rate' => $v['ppe_receive_rate'],
+                    ]);
+            }
+
+            foreach ($ppeContent as $v) {
+                if (empty($v['link_id']) || empty($v['ppe_receive_rate'])) {
+                    continue;
+                }
+                if ($v['id'] == 0) {
+                    $has = Db::name('job_ppe')
+                        ->where('job_id',$job_id)
+                        ->where('ppe_receive_rate',$v['ppe_receive_rate'])
+                        ->where('link_id',$v['link_id'])
+                        ->count();
+                    if ($has < 1) {
+                        Db::name('job_ppe')->insert([
+                            'link_id' => $v['link_id'],
+                            'ppe_receive_rate' => $v['ppe_receive_rate'],
+                            'job_id' => $job_id,
+                            'company_id' => $company_id,
+                        ]);
+                    }
+                    continue;
+                }
+
+            }
+
+
+        } else {
+            Db::name('environment_factor')
+                ->where('company_id', $company_id)
+                ->where('job_id',$job_id)
+                ->delete();
+        }
+
+        // 1-2，2-2，3-1
+
+
+        return result_successed();
+
+    }
+
+
     public function bind($params)
     {
 //        dd($params);
@@ -946,4 +1048,28 @@ class JobService {
         return result_successed();
 
     }
+
+    public function bindPpeDetail($id)
+    {
+        $data = JobPpe::find($id);
+        if (!$data) {
+            return result_failed('数据不存在');
+        }
+
+        $ppe = Db::name('ppe')
+            ->where([
+//                'type' => 2,
+                'job_id' => $data['job_id'],
+            ])
+            ->select();
+        $ret = [
+            'ppe' => $ppe,
+//            'environment_factor' => $environment_factor,
+
+        ];
+        return result_successed($ret);
+    }
+
+
+
 }

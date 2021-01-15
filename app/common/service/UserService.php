@@ -302,7 +302,7 @@ class UserService
             }
 
             if ($data->username != $params['username']) {
-                $has = \db('user')
+                $has = Db::name('user')
                     ->where('user_id', '<>', $data->user_id)
                     ->where('username', $params['username'])
                     ->where('company_id', $params['company_id'])

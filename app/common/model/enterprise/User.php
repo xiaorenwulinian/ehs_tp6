@@ -36,7 +36,17 @@ class User extends Model
 
 
 
-
+        self::beforeUpdate(function ($row) {
+            $changedata = $row->getChangedData();
+            if (isset($changedata['money'])) {
+                $origin = $row->getOriginData();
+                MoneyLog::create(['user_id' => $row['id'], 'money' => $changedata['money'] - $origin['money'], 'before' => $origin['money'], 'after' => $changedata['money'], 'memo' => '管理员变更金额']);
+            }
+            if (isset($changedata['score'])) {
+                $origin = $row->getOriginData();
+                ScoreLog::create(['user_id' => $row['id'], 'score' => $changedata['score'] - $origin['score'], 'before' => $origin['score'], 'after' => $changedata['score'], 'memo' => '管理员变更积分']);
+            }
+        });
     }
 
     public function getGenderList()

@@ -176,6 +176,19 @@ class WorkService {
             ];
         }
 
+        $electricDeviceData = [
+            1 => '用电设备一',
+            2 => '用电设备二',
+            3 => '用电设备三',
+        ];
+        $electricDevice = [];
+        foreach ($electricDeviceData as $k => $v) {
+            $electricDevice[] = [
+                'id'  => $k,
+                'name' => $v,
+            ];
+        }
+
         $limitSpareTypeData = [
             1 => '地上',
             2 => '地下',
@@ -198,6 +211,7 @@ class WorkService {
             'work_high_type' => $work_high_type,
             'fireLevel' => $fireLevel,
             'electricLevel' => $electricLevel,
+            'electricDevice' => $electricDevice,
             'limitSpareType' => $limitSpareType,
             'work_cate' => $work_cate,
         ];
@@ -263,6 +277,78 @@ class WorkService {
 
         try {
 
+            $work_user_id = $params['work_user_id'] ?? '';
+            $duty_department_id  = $params['duty_department_id'] ?? 0;
+            $monitor_user_id     = $params['monitor_user_id'] ?? 0;
+            $confirm_user_id     = $params['confirm_user_id'] ?? 0;
+            $charge_user_id      = $params['charge_user_id'] ?? 0;
+
+            $out_work_user_id        = $params['out_work_user_id'] ?? '';
+            $out_duty_department_id  = $params['out_duty_department_id'] ?? 0;
+            $out_monitor_user_id     = $params['out_monitor_user_id'] ?? 0;
+            $out_confirm_user_id     = $params['out_confirm_user_id'] ?? 0;
+            $out_charge_user_id      = $params['out_charge_user_id'] ?? 0;
+
+            $out = [
+                '外包现场作业人' => $out_work_user_id,
+                '外包单位' => $out_duty_department_id,
+                '外包监护人' => $out_monitor_user_id,
+                '外包确认人' => $out_confirm_user_id,
+                '外包负责人' => $out_charge_user_id,
+            ];
+
+            $my = [
+//                'out_work_user_id' => $out_work_user_id,
+                '现场作业人' => $work_user_id,
+                '责任部门' => $duty_department_id,
+                '监护人' => $monitor_user_id,
+                '确认人' => $confirm_user_id,
+                '负责人' => $charge_user_id,
+            ];
+
+            $cooper = [
+                '现场作业人' => $work_user_id,
+                '责任部门' => $duty_department_id,
+                '监护人' => $monitor_user_id,
+                '确认人' => $confirm_user_id,
+                '负责人' => $charge_user_id,
+                '外包现场作业人' => $out_work_user_id,
+                '外包单位' => $out_duty_department_id,
+                '外包监护人' => $out_monitor_user_id,
+                '外包确认人' => $out_confirm_user_id,
+                '外包负责人' => $out_charge_user_id,
+            ];
+            // 1. 外包， 2本方， 3协作
+            if (1 == $params['operate_type']) {
+                foreach ($out as $k => $v) {
+                    if (empty($v)) {
+                        throw new \Exception("外包字段:{$k}必传");
+                    }
+                }
+//                if (
+//                    empty($out_work_user_id)
+//                    || empty($out_duty_department_id)
+//                    || empty($out_monitor_user_id)
+//                    || empty($out_confirm_user_id)
+//                    || empty($out_charge_user_id)
+//                ) {
+//                    throw new \Exception('外包所有字段必传');
+//                }
+            } elseif (2 == $params['operate_type']) {
+                foreach ($my as $k => $v) {
+                    if (empty($v)) {
+                        throw new \Exception("本方字段:{$k}必传");
+                    }
+                }
+
+            } else {
+                foreach ($cooper as $k => $v) {
+                    if (empty($v)) {
+                        throw new \Exception("协作字段:{$k}必传");
+                    }
+                }
+            }
+
             $form_type_id = $params['work_link_type'];
             if (!array_key_exists($form_type_id, WorkConstant::WORK_TYPE_ARR)) {
                 throw new \Exception("类型不匹配！");
@@ -273,9 +359,9 @@ class WorkService {
                 'company_id'          => $params['company_id'],
                 'apply_department_id' => $params['apply_department_id'],
                 'company_area_id'     => $params['company_area_id'],
-                'work_type_id'        => $params['work_type_id'],
-                'work_level_id'       => $params['work_level_id'],
-                'work_address'        => $params['work_address'],
+//                'work_type_id'        => $params['work_type_id'],
+//                'work_level_id'       => $params['work_level_id'],
+//                'work_address'        => $params['work_address'],
                 'start_time'          => $params['start_time'],
                 'end_time'            => $params['end_time'],
                 'other_work'          => $params['other_work'] ?? '',
@@ -327,7 +413,7 @@ class WorkService {
                     break;
                 case WorkConstant::WORK_ELECTRIC:
                     $specialInsert = [
-                        'work_device'         => $params['work_device'],
+                        'work_device_id'         => $params['work_device_id'],
                         'work_level_id'       => $params['work_level_id'],
                     ];
                     $tableName = 'work_electric';
@@ -335,7 +421,6 @@ class WorkService {
                 case WorkConstant::WORK_LIMIT_SPARE:
                     $specialInsert = [
                         'work_address'        => $params['work_address'],
-//                        'work_device'         => $params['work_device'],
                         'work_type_id'       => $params['work_type_id'],
                     ];
                     $tableName = 'work_limit_spare';
@@ -352,8 +437,6 @@ class WorkService {
                 'company_id'          => $params['company_id'],
                 'apply_department_id' => $params['apply_department_id'],
                 'company_area_id'     => $params['company_area_id'],
-
-
 
                 'start_time'          => $params['start_time'],
                 'end_time'            => $params['end_time'],
@@ -378,6 +461,7 @@ class WorkService {
                 'work_total_id'       => $work_total_id,
                 'addtime'             => $curTime,
             ];
+
             $work_combine_insert = $specialInsert + $work_common_insert;
             Db::name($tableName)->insert($work_combine_insert);
 
