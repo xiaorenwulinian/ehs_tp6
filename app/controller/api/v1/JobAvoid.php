@@ -1,13 +1,12 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\service\JobAvoidService;
 use app\common\service\JwtService;
 use app\common\validate\JobAvoidValidate;
-use app\common\controller\Api;
 
 /**
  * 岗位-禁忌

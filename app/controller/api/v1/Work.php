@@ -1,22 +1,15 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
-use app\common\constant\ObjectConstant;
+use app\controller\api\ApiBase;
 use app\common\constant\WorkConstant;
-use app\common\service\JobService;
 use app\common\service\JwtService;
 use app\common\service\WorkService;
-use app\common\validate\EmerPlanValidate;
-use app\common\validate\JobValidate;
-use app\common\validate\PpeValidate;
 use app\common\validate\WorkFireValidate;
 use app\common\validate\WorkHighValidate;
 use app\common\validate\WorkDirtValidate;
-use app\common\validate\WorkElectricValidate;
-use app\common\validate\WorkLimitSpareValidate;
 
 /**
  * 作业

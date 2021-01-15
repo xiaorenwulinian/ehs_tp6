@@ -1,10 +1,9 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\validate\UserValidate;
-use app\common\controller\Api;
 use app\common\service\UserService;
 
 /**

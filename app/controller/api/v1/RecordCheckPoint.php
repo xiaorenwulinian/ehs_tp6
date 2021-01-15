@@ -1,17 +1,13 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
-use app\common\service\JobService;
+use app\controller\api\ApiBase;
 use app\common\service\JwtService;
 use app\common\service\RecordCheckPointService;
-use app\common\validate\JobValidate;
-use app\common\controller\Api;
-use app\common\model\enterprise\Job as JobModel;
 use app\common\library\StringLib;
-use think\Db;
+use think\facade\Db;
 
 /**
  * 公司区域

@@ -1,15 +1,11 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
-use app\common\service\JobAvoidService;
+use app\controller\api\ApiBase;
 use app\common\service\JwtService;
 use app\common\service\VisitorService;
-use app\common\validate\CommonValidate;
-use app\common\validate\JobAvoidValidate;
-use app\common\controller\Api;
 use app\common\validate\VisitorValidate;
 
 /**
@@ -76,8 +72,6 @@ class Visitor extends ApiBase
         api_validate(VisitorValidate::class, 'add', $params);
 
         $params['company_id'] = JwtService::getInstance()->getCompanyId();
-
-
 
         $ret =  (new VisitorService())->add($params);
         return json($ret);

@@ -1,14 +1,13 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\service\HttpPushWsService;
-
 use app\common\library\StringLib;
-use think\Db;
-use think\Log;
+use think\facade\Db;
+use think\facade\Log;
 
 /**
  * 第三方对接
