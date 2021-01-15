@@ -3,7 +3,6 @@
 
 namespace app\controller\api\v1;
 
-
 use app\common\constant\CommonConstant;
 use app\common\constant\ObjectConstant;
 use app\common\constant\WorkConstant;
@@ -16,7 +15,7 @@ use think\facade\Db;
 /**
  * @descption 公用的下拉框
  * Class CommonSelectBox
- * @package app\api\controller\v1
+ *
  */
 class CommonSelectBox extends ApiBase
 {
@@ -34,15 +33,17 @@ class CommonSelectBox extends ApiBase
 
     public function _initialize()
     {
-//        parent::_initialize();
+        parent::_initialize();
 
         $method = $this->request->action();
         $noCompanyIdArr = $this->noCompanyIdArr;
-
-        foreach($noCompanyIdArr as &$v) {
+//        $noCompanyIdArr =  array_map(function ($v){
+//            return strtolower($v);
+//        },$noCompanyIdArr);
+        /*foreach($noCompanyIdArr as &$v) {
             $v = strtolower($v);
-        }
-//        dd($method, $noCompanyIdArr);
+        }*/
+
         if (!in_array($method, $noCompanyIdArr)) {
             $this->companyId = JwtService::getInstance()->getCompanyId();
             /*$this->companyId = input('company_id/d', 0);
@@ -194,8 +195,8 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'parent_id', 'department_name as name'])
             ->order('parent_id', 'asc')
             ->select();
-
-        $data = collection($data)->toArray();
+        
+        $data = collect($data)->toArray();
 
         $list = \app\common\model\enterprise\Department::getTreeMulti($data);
 
@@ -525,9 +526,9 @@ class CommonSelectBox extends ApiBase
         return json(result_successed(compact('list')));
 
     }
-    /*
-     * 安全标识色标
-     */
+/*
+ * 安全标识色标
+ */
     public function safetySignsColor()
     {
         $list = [
@@ -535,7 +536,7 @@ class CommonSelectBox extends ApiBase
                 'id'   => '1',
                 'name' => '红',
                 'color'=> '#ff0000'
-            ],
+                ],
             [
                 'id'   => '2',
                 'name' => '黄',

@@ -1,13 +1,17 @@
 <?php
 
-namespace app\controller\api\v1;
+namespace app\api\controller\v1;
 
+use app\api\controller\ApiBase;
+use app\api\controller\Common;
+use app\common\constant\JobConstant;
 use app\common\service\JwtService;
-use app\common\service\UserService;
+use app\common\validate\CommonValidate;
+use app\common\validate\FollowPhotoValidate;
 use app\common\validate\UserValidate;
-use app\controller\api\ApiBase;
-use think\facade\Db;
-
+use app\common\controller\Api;
+use app\common\service\UserService;
+use think\Db;
 
 /**
  * 会员接口
@@ -18,9 +22,9 @@ class User extends ApiBase
     protected $noNeedLogin = ['*'];
     protected $noNeedRight = ['*'];
 
-    public function initialize()
+    public function _initialize()
     {
-        parent::initialize();
+        parent::_initialize();
     }
 
 
@@ -30,7 +34,6 @@ class User extends ApiBase
      */
     public function index()
     {
-
         $params = $this->request->param();
 
         api_validate(UserValidate::class, 'index', $params);
@@ -50,39 +53,8 @@ class User extends ApiBase
      */
     public function add()
     {
-        /*
-         CREATE TABLE `user` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `company_id` int unsigned NOT NULL DEFAULT '0' COMMENT '公司id',
-  `user_no` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '员工编号',
-  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '账号/登录名',
-  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '用户名',
-  `pinyin` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '拼音',
-  `pinyin_short` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '拼音简称',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '密码',
-  `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
-  `urgency_phone` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '紧急联系人号码',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '头像',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '电子邮箱',
-  `sex` tinyint unsigned NOT NULL DEFAULT '3' COMMENT '性别,1男，2女，3未知',
-  `birthday` date DEFAULT NULL COMMENT '生日',
-  `score` int NOT NULL DEFAULT '0' COMMENT '积分',
-  `createtime` int DEFAULT NULL COMMENT '创建时间',
-  `updatetime` int DEFAULT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态 1：启用 ；2：禁用',
-  `user_type` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '用户类型：0-普通会员1-管理员',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '软删除0-正常1-删除',
-  `department_id` int NOT NULL DEFAULT '0',
-  `job_id` int NOT NULL DEFAULT '0',
-  `job_role_label_id` int NOT NULL DEFAULT '0' COMMENT '岗位角色',
-  `user_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '用户上岗状态。1.岗前学习期 2.在岗 3.离岗 4.离职',
-  `config_data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '点位配置',
-  PRIMARY KEY (`id`) USING BTREE,
 
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='会员表';
-         */
         $params = $this->request->only([
-//            'operator_id',
             'user_no', // 员工编号
             'username', // 账号
             'nickname', // 用户名
@@ -121,7 +93,6 @@ class User extends ApiBase
         $params = $this->request->only([
             'id',
             'operator_id',
-            'company_id',
             'username',
             'nickname',
             'password',
@@ -134,7 +105,9 @@ class User extends ApiBase
         ]);
 
         api_validate(UserValidate::class, 'edit', $params);
-
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret =  (new UserService())->edit($params);
+        return json($ret);
         return (new UserService())->edit($params);
     }
 
@@ -177,7 +150,7 @@ class User extends ApiBase
             return api_failed("密码必须");
         }
 
-        $user = \app\common\model\enterprise\User::find($userId);
+        $user = \app\common\model\User::get($userId);
         if (!$user) {
             return api_failed('不存在该用户');
         }
