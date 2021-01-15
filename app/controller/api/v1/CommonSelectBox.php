@@ -195,7 +195,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'parent_id', 'department_name as name'])
             ->order('parent_id', 'asc')
             ->select();
-        
+
         $data = collect($data)->toArray();
 
         $list = \app\common\model\enterprise\Department::getTreeMulti($data);

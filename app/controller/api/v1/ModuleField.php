@@ -1,11 +1,10 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\constant\IdentifyTableConstant;
-use app\common\controller\Api;
 use app\common\model\enterprise\UserModuleAllField;
 use app\common\model\enterprise\UserModuleIdentifyField;
 use app\common\service\JwtService;

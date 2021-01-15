@@ -1,9 +1,9 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\constant\ObjectConstant;
 use app\common\service\JobService;
 use app\common\service\JwtService;

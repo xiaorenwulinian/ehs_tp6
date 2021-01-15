@@ -1,17 +1,15 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
-use app\api\controller\Common;
+use app\controller\api\ApiBase;
 use app\common\constant\JobConstant;
 use app\common\service\JwtService;
 use app\common\validate\CommonValidate;
 use app\common\validate\FollowPhotoValidate;
 use app\common\validate\UserValidate;
-use app\common\controller\Api;
 use app\common\service\UserService;
-use think\Db;
+use think\facade\Db;
 
 /**
  * 会员接口
@@ -108,18 +106,11 @@ class User extends ApiBase
         $params['company_id'] = JwtService::getInstance()->getCompanyId();
         $ret =  (new UserService())->edit($params);
         return json($ret);
-        return (new UserService())->edit($params);
     }
 
 
     /**
      * @ApiTitle  (删除员工)
-     * @ApiMethod  (POST)
-     * @ApiHeaders (name=token, type=string, required=true, description="请求的Token")
-     * @ApiParams  (name="user_id", type="string", required=true, description="用户id")
-     * @ApiReturn   ({
-    'code':200,
-    'msg':'删除成功'
     })
      */
     public function userDelete()
@@ -166,7 +157,6 @@ class User extends ApiBase
      */
     public function signEveryDay()
     {
-
         $userId = JwtService::getInstance()->getUserIdMobile();
         $ret = (new UserService())->signEveryDay($userId);
 

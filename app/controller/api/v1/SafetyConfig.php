@@ -1,14 +1,11 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\validate\SafetyConfigValidate;
-use app\common\controller\Api;
-use think\Db;
-use think\Validate;
-use think\Loader;
+use think\facade\Db;
 
 /**
  * 巡更配置
