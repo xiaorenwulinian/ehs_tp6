@@ -1,9 +1,9 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\service\DepartmentService;
 use app\common\service\JwtService;
 use app\common\validate\DepartmentValidate;
@@ -132,7 +132,7 @@ class Department extends ApiBase
             ->order('parent_id','asc')
             ->select();
 
-        $data = collection($data)->toArray();
+        $data = collect($data)->toArray();
         $list = DepartmentModel::getTree($data);
 
         $newData = [];
@@ -185,7 +185,7 @@ class Department extends ApiBase
             ->where('department_id','=', $departmentId)
             ->field(['id', 'username as name'])
             ->select();
-        $user = collection($user)->toArray();
+        $user = collect($user)->toArray();
         foreach ($user as &$v) {
             unset($v['domain_avatar']);
             unset($v['sex_string']);

@@ -1,15 +1,14 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\service\EhsPointService;
 use app\common\service\EhsCourseService;
 use app\common\service\JwtService;
 use app\common\validate\EhsPointValidate;
 use app\common\validate\EhsCourseValidate;
-use app\common\controller\Api;
 
 /**
  * 环境监测点

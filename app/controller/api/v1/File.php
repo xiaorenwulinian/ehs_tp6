@@ -1,14 +1,12 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
+use app\controller\api\ApiBase;
 use app\common\constant\UploadConstant;
-use app\common\controller\Api;
 use app\common\library\oss\OssLib;
-use FFMpeg\FFMpeg;
-use think\Log;
+
 
 /**
  * @descption 公用的下拉框

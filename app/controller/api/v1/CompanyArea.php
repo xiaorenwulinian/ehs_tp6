@@ -1,12 +1,11 @@
 <?php
 
 
-namespace app\api\controller\v1;
+namespace app\controller\api\v1;
 
-use app\api\controller\ApiBase;
 use app\common\service\JwtService;
 use app\common\validate\CompanyAreaValidate;
-use app\common\controller\Api;
+use app\controller\api\ApiBase;
 
 /**
  * 公司区域
@@ -43,7 +42,7 @@ class CompanyArea extends ApiBase
             ->where($where)
             ->order('parent_id', 'asc')
             ->select();
-        $data = collection($data)->toArray();
+        $data = collect($data)->toArray();
         $newData= [];
         foreach ($data as $v) {
             $temp = $v;
@@ -66,9 +65,6 @@ class CompanyArea extends ApiBase
      */
     public function add()
     {
-        if ($this->request->isGet()) {
-            return api_failed("非法请求");
-        }
 
         $params = $this->request->only([
             'name',
@@ -97,7 +93,7 @@ class CompanyArea extends ApiBase
             if ($parentId  == 0) {
                 $level = 1;
             } else {
-                $parent = \app\common\model\enterprise\CompanyArea::get($parentId);
+                $parent = \app\common\model\enterprise\CompanyArea::find($parentId);
                 $level = $parent->cur_level;
                 $level++;
             }
@@ -225,7 +221,7 @@ class CompanyArea extends ApiBase
             ->where('company_id','=',$companyId)
 //            ->field(['company_area_id', 'area_name'])
             ->select();
-        $data = collection($data)->toArray();
+        $data = collect($data)->toArray();
 
         $list = \app\common\model\enterprise\CompanyArea::getTree($data);
         $newData = [];
