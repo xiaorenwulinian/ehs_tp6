@@ -25,18 +25,18 @@ class User extends Model
         'domain_avatar',
         'sex_string',
     ];
-
+/*
     public function getOriginData()
     {
         return $this->origin;
-    }
+    }*/
 
     protected static function init()
     {
 
 
 
-        self::beforeUpdate(function ($row) {
+        /*self::beforeUpdate(function ($row) {
             $changedata = $row->getChangedData();
             if (isset($changedata['money'])) {
                 $origin = $row->getOriginData();
@@ -46,7 +46,7 @@ class User extends Model
                 $origin = $row->getOriginData();
                 ScoreLog::create(['user_id' => $row['id'], 'score' => $changedata['score'] - $origin['score'], 'before' => $origin['score'], 'after' => $changedata['score'], 'memo' => '管理员变更积分']);
             }
-        });
+        });*/
     }
 
     public function getGenderList()

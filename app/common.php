@@ -177,3 +177,10 @@ if (!function_exists('collection')) {
         return collect($data);
     }
 }
+
+if (!function_exists('__')) {
+    function __($data)
+    {
+        return $data;
+    }
+}
