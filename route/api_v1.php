@@ -178,11 +178,16 @@ Route::group('/api/v1', function(){
         Route::any('bindPpe/add', 'api.v1.Job/bindPpeAdd');
         Route::any('bindPpe/edit', 'api.v1.Job/bindPpeEdit');
         Route::any('bindPpe/delete', 'api.v1.Job/bindPpeDelete');
-
-        Route::any('bindCourse', 'api.v1.Job/bindCourse');
-        Route::any('bindEmergency', 'api.v1.Job/bindEmergency');
         Route::any('bindPpeDetail', 'api.v1.Job/bindPpeDetail');
+
+        Route::any('bindCourse/add', 'api.v1.Job/bindCourseAdd');
+        Route::any('bindCourse/delete', 'api.v1.Job/bindCourseDelete');
+//        Route::any('bindCourse', 'api.v1.Job/bindCourse');
         Route::any('bindCourseDetail', 'api.v1.Job/bindCourseDetail');
+
+        Route::any('bindEmergency/add', 'api.v1.Job/bindEmergencyAdd');
+        Route::any('bindEmergency/delete', 'api.v1.Job/bindEmergencyDelete');
+//        Route::any('bindEmergency', 'api.v1.Job/bindEmergency');
         Route::any('bindEmergencyDetail', 'api.v1.Job/bindEmergencyDetail');
     });
 

@@ -400,6 +400,62 @@ class Job extends ApiBase
         return json($ret);
     }
 
+    /*
+     * 岗位绑定课程添加
+     */
+    public function bindCourseAdd()
+    {
+        $params = $this->request->param();
+        if (empty($params['job_id']) || empty($params['linK_ids'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindCourseAdd($params);
+        return json($ret);
+    }
+
+    /*
+    * 岗位绑定 ppe 删除
+    */
+    public function bindCourseDelete()
+    {
+        $params = $this->request->param();
+        if (empty($params['id'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindCourseDelete($params);
+        return json($ret);
+    }
+
+    /*
+    * 岗位绑定紧急预案添加
+    */
+    public function bindEmergencyAdd()
+    {
+        $params = $this->request->param();
+        if (empty($params['job_id']) || empty($params['linK_ids'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindEmergencyAdd($params);
+        return json($ret);
+    }
+
+    /*
+    * 岗位绑定 紧急预案 删除
+    */
+    public function bindEmergencyDelete()
+    {
+        $params = $this->request->param();
+        if (empty($params['id'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindEmergencyDelete($params);
+        return json($ret);
+    }
+
 
     public function bindPpe()
     {
