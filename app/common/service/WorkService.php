@@ -249,6 +249,7 @@ class WorkService {
             'electricDevice' => $electricDevice,
             'limitSpareType' => $limitSpareType,
             'slingLevel' => $slingLevel,
+            'slingDevice' => $slingDevice,
             'openCircuiType' => $openCircuiType,
             'work_cate' => $work_cate,
         ];
@@ -355,8 +356,10 @@ class WorkService {
                 '外包确认人' => $out_confirm_user_id,
                 '外包负责人' => $out_charge_user_id,
             ];
+            $operate_type = $params['operate_type'];
+            $operate_type = intval($operate_type);
             // 1. 外包， 2本方， 3协作
-            if (1 == $params['operate_type']) {
+            if (1 === $operate_type) {
                 foreach ($out as $k => $v) {
                     if (empty($v)) {
                         throw new \Exception("外包字段:{$k}必传");
@@ -371,7 +374,7 @@ class WorkService {
 //                ) {
 //                    throw new \Exception('外包所有字段必传');
 //                }
-            } elseif (2 == $params['operate_type']) {
+            } elseif (2 === $operate_type) {
                 foreach ($my as $k => $v) {
                     if (empty($v)) {
                         throw new \Exception("本方字段:{$k}必传");
@@ -468,6 +471,13 @@ class WorkService {
                         'work_level_id'       => $params['work_level_id'],
                     ];
                     $tableName = 'work_sling';
+                    break;
+                case WorkConstant::WORK_LIMIT_SPARE:
+                    $specialInsert = [
+                        'work_address'        => $params['work_address'],
+                        'work_type_id'       => $params['work_type_id'],
+                    ];
+                    $tableName = 'work_limit_spare';
                     break;
             }
             if (empty($tableName)) {
