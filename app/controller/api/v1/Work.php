@@ -242,12 +242,72 @@ class Work extends ApiBase
 
         api_validate(WorkBlindValidate::class, 'add', $params);
 
+        $valRet = $this->blindsValidate($params);
+        if (true !== $valRet) {
+            return json(result_failed($valRet));
+        }
         $companyId = JwtService::getInstance()->getCompanyId();
         $params['company_id'] = $companyId;
         $params['work_link_type'] = WorkConstant::WORK_BLIND;
 
         $ret = (new WorkService())->workCommonAdd($params);
         return json($ret);
+    }
+
+    public function blindsValidate($params)
+    {
+        $work_user_id = $params['work_user_id'] ?? '';
+        $duty_department_id  = $params['duty_department_id'] ?? 0;
+        $monitor_user_id     = $params['monitor_user_id'] ?? 0;
+        $confirm_user_id     = $params['confirm_user_id'] ?? 0;
+        $charge_user_id      = $params['charge_user_id'] ?? 0;
+
+        $out_work_user_id        = $params['out_work_user_id'] ?? '';
+        $out_duty_department_id  = $params['out_duty_department_id'] ?? 0;
+        $out_monitor_user_id     = $params['out_monitor_user_id'] ?? 0;
+        $out_confirm_user_id     = $params['out_confirm_user_id'] ?? 0;
+        $out_charge_user_id      = $params['out_charge_user_id'] ?? 0;
+
+        $validate = [
+            1 => [
+                '外包现场作业人' => $out_work_user_id,
+                '外包单位' => $out_duty_department_id,
+                '外包监护人' => $out_monitor_user_id,
+                '外包确认人' => $out_confirm_user_id,
+                '外包负责人' => $out_charge_user_id,
+            ],
+            2 => [
+//                'out_work_user_id' => $out_work_user_id,
+                '现场作业人' => $work_user_id,
+                '责任部门' => $duty_department_id,
+                '监护人' => $monitor_user_id,
+                '确认人' => $confirm_user_id,
+                '负责人' => $charge_user_id,
+            ],
+            3 => [
+                '现场作业人' => $work_user_id,
+                '责任部门' => $duty_department_id,
+                '监护人' => $monitor_user_id,
+                '确认人' => $confirm_user_id,
+                '负责人' => $charge_user_id,
+                '外包现场作业人' => $out_work_user_id,
+                '外包单位' => $out_duty_department_id,
+                '外包监护人' => $out_monitor_user_id,
+                '外包确认人' => $out_confirm_user_id,
+                '外包负责人' => $out_charge_user_id,
+            ]
+        ];
+
+        $operate_type = intval($params['operate_type']);
+        // 1. 外包， 2本方， 3协作
+        $validArr = $validate[$operate_type];
+
+        foreach ($validArr as $k => $v) {
+            if (empty($v)) {
+                return"字段:{$k}必传";
+            }
+        }
+        return true;
     }
 
 
