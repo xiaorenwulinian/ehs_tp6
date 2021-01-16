@@ -574,7 +574,7 @@ class FacilityService {
 
     public function delete($id)
     {
-        $data = Facility::get($id);
+        $data = Facility::find($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -591,7 +591,7 @@ class FacilityService {
 
     public function detail($id)
     {
-        $data = Facility::get($id);
+        $data = Facility::find($id);
         if (!$data) {
             return api_failed("数据不存在");
         }

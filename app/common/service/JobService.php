@@ -5,6 +5,7 @@ namespace app\common\service;
 
 use app\common\constant\CommonConstant;
 use app\common\constant\ObjectConstant;
+use app\common\model\enterprise\EhsCourse;
 use app\common\model\enterprise\EmergencyPlan;
 use app\common\model\enterprise\Facility;
 use app\common\model\enterprise\Job;
@@ -12,6 +13,8 @@ use app\common\model\enterprise\JobQualify;
 use app\common\model\enterprise\JobSetting;
 use app\common\model\enterprise\Ppe;
 use app\common\model\enterprise\JobPpe;
+use app\common\model\enterprise\JobEmergency;
+use app\common\model\enterprise\JobCourse;
 use app\common\traits\SingletonTrait;
 use think\facade\Db;
 
@@ -1055,11 +1058,102 @@ class JobService {
         $linkIdArr = JobPpe::where(['job_id'=> $jobId])->column('link_id');
 
         $ppe = Db::name('ppe')
+//            ->field([
+//                'id',
+//                'attribute',
+//                'firm_rate_type',
+//            ])
             ->whereIn('id', $linkIdArr)
             ->select();
 //        dd($ppe);
+
+        $list = [];
+
+        foreach ($ppe as $v) {
+            $temp = $v;
+            $temp['attribute_str'] = $v['attribute'] == 1 ? '一般劳动防护用品' : '特种劳动防护用品';
+            $temp['firm_rate_type_str'] = $v['firm_rate_type'] == 1 ? '年' : '月';
+//            $arr = [
+//                1 => 'nian',
+//                2 => 'yue',
+//                3 => 'ri',
+//            ];
+//            $temp['firm_rate_type_str'] = $arr[$v['firm_rate_type']] ?? '';
+
+//            unset($temp['attribute']);
+//            unset($temp['firm_rate_type']);
+            array_push($list, $temp);
+        }
         $ret = [
-            'ppe' => $ppe,
+//            'ppe' => $ppe,
+            'ppe' => $list,
+        ];
+        return result_successed($ret);
+    }
+    public function bindCourseDetail($jobId)
+    {
+
+        $linkIdArr = JobCourse::where(['job_id'=> $jobId])->column('link_id');
+
+        $course = EhsCourse::with([
+                'job'
+            ])
+            ->whereIn('id', $linkIdArr)
+            ->select();
+//        dd($ppe);
+
+        $list = [];
+
+        foreach ($course as $v) {
+//            $temp = $v;
+            $v['job_name'] = $v['job']['job_name'] ?? '';
+            $v['type_str'] = $v['type'] == 1 ? '通用课程' : '专业课程';
+            $v['is_online_str'] = $v['is_online'] == 1 ? '是' : '否';
+            unset($v['job']);
+            array_push($list, $v);
+        }
+
+        $ret = [
+//            'ehs_course' => $course,
+            'ehs_course' => $list,
+        ];
+        return result_successed($ret);
+    }
+
+    public function bindEmergencyDetail($jobId)
+    {
+
+        $linkIdArr = JobEmergency::where(['job_id'=> $jobId])->column('link_id');
+
+        $emergency = Db::name('emergency_plan')
+            ->with([
+                'job',
+                'department',
+            ])
+            ->whereIn('id', $linkIdArr)
+            ->select();
+
+        $emergency = EmergencyPlan::with([
+                'department',
+                'job',
+            ])
+            ->whereIn('id', $linkIdArr)
+            ->select();
+
+        $list = [];
+
+        foreach ($emergency as $v) {
+            $temp = $v;
+            $temp['job_name'] = $v['job']['job_name'] ?? '';
+            $temp['department_name'] = $v['department']['department_name'] ?? '';
+            $temp['evaluate_type_str'] = $v['evaluate_type'] == 1 ? '书面' : '演习';
+            unset($temp['department']);
+            unset($temp['job']);
+            array_push($list, $temp);
+        }
+        $ret = [
+//            'emergency_plan' => $emergency,
+            'emergency_plan' => $list,
         ];
         return result_successed($ret);
     }
