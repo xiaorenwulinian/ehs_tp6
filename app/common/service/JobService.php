@@ -428,7 +428,7 @@ class JobService {
 //                dd($v['job_name']);
 //            unset($v['job']);
 
-        };
+        }
         $ret = [
             'count' => $count,
             'list'  => $data,
@@ -1057,6 +1057,7 @@ class JobService {
 
         $linkIdArr = JobPpe::where(['job_id'=> $jobId])->column('link_id');
 
+//        dd($linkIdArr);
         $ppe = Db::name('ppe')
 //            ->field([
 //                'id',
@@ -1064,13 +1065,19 @@ class JobService {
 //                'firm_rate_type',
 //            ])
             ->whereIn('id', $linkIdArr)
-            ->select();
-//        dd($ppe);
+            ->select()->toArray();
+
+        $ppeTypeArr = ObjectConstant::PPE_OBJECT;
 
         $list = [];
-
         foreach ($ppe as $v) {
             $temp = $v;
+
+            if (array_key_exists($v['ppe_type_id'], $ppeTypeArr)) {
+                $temp['ppe_type_str'] = $ppeTypeArr[$v['ppe_type_id']]['name'] ?? '';
+            } else {
+                $temp['ppe_type_str'] = '';
+            }
             $temp['attribute_str'] = $v['attribute'] == 1 ? '一般劳动防护用品' : '特种劳动防护用品';
             $temp['firm_rate_type_str'] = $v['firm_rate_type'] == 1 ? '年' : '月';
 //            $arr = [
@@ -1085,11 +1092,12 @@ class JobService {
             array_push($list, $temp);
         }
         $ret = [
-//            'ppe' => $ppe,
-            'ppe' => $list,
+            'list' => $list,
+//            'list' => $list,
         ];
         return result_successed($ret);
     }
+
     public function bindCourseDetail($jobId)
     {
 
@@ -1115,7 +1123,7 @@ class JobService {
 
         $ret = [
 //            'ehs_course' => $course,
-            'ehs_course' => $list,
+            'list' => $list,
         ];
         return result_successed($ret);
     }
@@ -1153,7 +1161,7 @@ class JobService {
         }
         $ret = [
 //            'emergency_plan' => $emergency,
-            'emergency_plan' => $list,
+            'list' => $list,
         ];
         return result_successed($ret);
     }

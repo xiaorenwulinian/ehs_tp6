@@ -242,7 +242,7 @@ class Work extends ApiBase
 
         $companyId = JwtService::getInstance()->getCompanyId();
         $params['company_id'] = $companyId;
-        $params['work_link_type'] = WorkConstant::WORK_LIMIT_SPARE;
+        $params['work_link_type'] = WorkConstant::WORK_BLIND;
         $ret = (new WorkService())->workCommonAdd($params);
         return json($ret);
     }
