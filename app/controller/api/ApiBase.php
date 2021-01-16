@@ -2,8 +2,6 @@
 
 namespace app\controller\api;
 
-
-
 use app\BaseController;
 
 class ApiBase extends BaseController
@@ -20,11 +18,9 @@ class ApiBase extends BaseController
     protected $noNeedRight = ['*'];
 
 
-
-
     public function initialize()
     {
-        
+
         $this->_initialize();
 
     }

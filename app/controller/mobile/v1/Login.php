@@ -24,7 +24,8 @@ class Login extends MobileBase
 
         api_validate(UserValidate::class, 'mobile_login', $params);
 
-        $result = (new UserService())->mobileLogin($params);
+//        $result = (new UserService())->mobileLogin($params);
+        $result = (new UserService())->login($params);
         return api_successed($result);
 
     }

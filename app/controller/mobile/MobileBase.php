@@ -20,20 +20,14 @@ class MobileBase extends BaseController
     protected $noNeedAuth = [];
 
 
-    public function __construct(Request $request = null)
-    {
-        parent::__construct($request);
-
-    }
-
     public function _initialize()
     {
 
         //跨域请求检测
-        check_cors_request();
+//        check_cors_request();
 
         // 验证 token
-        $module     = \request()->module();
+       /* $module     = \request()->module();
         $controller = \request()->controller();
         $action     = \request()->action();
 
@@ -52,7 +46,7 @@ class MobileBase extends BaseController
 
                 $this->isAuth();
             }
-        }
+        }*/
 
     }
 

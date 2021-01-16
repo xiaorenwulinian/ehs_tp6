@@ -3,6 +3,8 @@ declare (strict_types = 1);
 
 namespace app\middleware;
 
+use think\Response;
+
 class ApiCorsMiddleware
 {
     /**
@@ -15,13 +17,16 @@ class ApiCorsMiddleware
     public function handle($request, \Closure $next)
     {
 
-//        $response = $next($request);
-//        $response->header('Access-Control-Allow-Origin','*');
-//        $response->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Cookie, Accept');
-//        $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, OPTIONS');
-//        $response->header('Access-Control-Allow-Credentials', 'true');
-//        return $response;
-        //跨域请求检测
+//        header('Access-Control-Allow-Origin: *');
+//        header('Access-Control-Max-Age: 1800');
+//        header('Access-Control-Allow-Methods: GET, POST');
+//        header('Access-Control-Allow-Headers: Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With, Token');
+//        if (strtoupper($request->method()) == "OPTIONS") {
+//            return Response::create()->send();
+//        }
+//
+//        return $next($request);
+
 
         $web = request()->header('Origin');
 //跨域请求设置
@@ -29,7 +34,39 @@ class ApiCorsMiddleware
         header("Access-Control-Allow-Credentials:true");
 //        header("Access-Control-Allow-Origin:".$web);
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Headers:token,Content-Type, Authorization, Accept, Range, Origin,Token,Lang,lang");
+//        $header = "token,Content-Type, Authorization, Accept, Range, Origin,Token,Lang,lang,x-requested-with,os-version";
+
+        $headerArr = [
+            "token",
+            "Content-Type",
+            "Authorization",
+            "authorization",
+            "Accept",
+            "Range",
+            "Origin",
+            "Token",
+            "Lang",
+            "lang",
+            "x-requested-with",
+            "os-version",
+            "height",
+            "preflight",
+            "x-csrf-token,x-requested-with",
+            "device-name",
+            "os",
+            'content-type',
+            'height',
+            'os-version',
+            'Referer',
+            'width',
+            'User-Agent',
+
+        ];
+        $headerArr = ["*"];
+        $header = implode(',', $headerArr);
+        header("Access-Control-Allow-Headers: {$header}");
+
+//        header('Access-Control-Allow-Headers:x-requested-with,content-type,Authorization')
 //        if($this->request->isOptions()){
 //            exit;
 //        }
