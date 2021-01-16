@@ -227,13 +227,13 @@ class WorkService {
             ];
         }
 
-        $openCircuiTypeData = [
+        $cuttingOutTypeData = [
             1 => '车辆禁行',
             2 => '全部禁行',
         ];
-        $openCircuiType = [];
-        foreach ($openCircuiTypeData as $k => $v) {
-            $openCircuiType[] = [
+        $cuttingOutType = [];
+        foreach ($cuttingOutTypeData as $k => $v) {
+            $cuttingOutType[] = [
                 'id'  => $k,
                 'name' => $v,
             ];
@@ -250,7 +250,7 @@ class WorkService {
             'limitSpareType' => $limitSpareType,
             'slingLevel' => $slingLevel,
             'slingDevice' => $slingDevice,
-            'openCircuiType' => $openCircuiType,
+            'cuttingOutType' => $cuttingOutType,
             'work_cate' => $work_cate,
         ];
 
@@ -472,12 +472,12 @@ class WorkService {
                     ];
                     $tableName = 'work_sling';
                     break;
-                case WorkConstant::WORK_LIMIT_SPARE:
+                case WorkConstant::WORK_CUTTING_OUT:
                     $specialInsert = [
                         'work_address'        => $params['work_address'],
                         'work_type_id'       => $params['work_type_id'],
                     ];
-                    $tableName = 'work_limit_spare';
+                    $tableName = 'work_cutting_out';
                     break;
             }
             if (empty($tableName)) {

@@ -3,6 +3,7 @@
 
 namespace app\controller\api\v1;
 
+use app\common\validate\WorkCuttingOutValidate;
 use app\controller\api\ApiBase;
 use app\common\constant\WorkConstant;
 use app\common\service\JwtService;
@@ -200,7 +201,7 @@ class Work extends ApiBase
 /*
  * 断路
  */
-    public function openCircuiIndex()
+    public function cuttingOutIndex()
     {
         $params = $this->request->param();
         $companyId = JwtService::getInstance()->getCompanyId();
@@ -209,14 +210,14 @@ class Work extends ApiBase
         $ret = (new WorkService())->workCommonIndex($params);
         return json($ret);
     }
-    public function openCircuiAdd()
+    public function cuttingOutAdd()
     {
         $params = $this->request->param();
-        api_validate(WorkSlingValidate::class, 'add', $params);
+        api_validate(WorkCuttingOutValidate::class, 'add', $params);
 
         $companyId = JwtService::getInstance()->getCompanyId();
         $params['company_id'] = $companyId;
-        $params['work_link_type'] = WorkConstant::WORK_LIMIT_SPARE;
+        $params['work_link_type'] = WorkConstant::WORK_CUTTING_OUT;
         $ret = (new WorkService())->workCommonAdd($params);
         return json($ret);
     }
@@ -225,7 +226,7 @@ class Work extends ApiBase
     /*
      * 盲板
      */
-    public function BlindIndex()
+    public function blindIndex()
     {
         $params = $this->request->param();
         $companyId = JwtService::getInstance()->getCompanyId();
@@ -234,7 +235,7 @@ class Work extends ApiBase
         $ret = (new WorkService())->workCommonIndex($params);
         return json($ret);
     }
-    public function BlindAdd()
+    public function blindAdd()
     {
         $params = $this->request->param();
         api_validate(WorkSlingValidate::class, 'add', $params);
@@ -245,6 +246,7 @@ class Work extends ApiBase
         $ret = (new WorkService())->workCommonAdd($params);
         return json($ret);
     }
+
 
     public function workCommonShow()
     {

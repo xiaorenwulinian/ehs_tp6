@@ -3,15 +3,15 @@
 namespace app\common\validate;
 
 
-class WorkDirtValidate extends BaseValidate
+class WorkCuttingOutValidate extends BaseValidate
 {
     protected $rule =   [
         'id'                    => 'require|integer',
         'company_id'            => 'require|integer',
         'apply_department_id'   => 'require|integer',
         'company_area_id'       => 'require|integer',
-//        'work_type_id'          => 'require|integer',
-        'work_level_id'         => 'require|integer',
+        'work_type_id'          => 'require|integer',
+//        'work_level_id'         => 'require|integer',
         'work_address'          => 'require|max:255',
         'start_time'            => 'require|date',
         'end_time'              => 'require|date',
@@ -49,8 +49,8 @@ class WorkDirtValidate extends BaseValidate
         'add'    =>  [
             'apply_department_id',
             'company_area_id',
-//            'work_type_id',
-            'work_level_id',
+            'work_type_id',
+//            'work_level_id',
             'work_address',
             'start_time',
             'end_time',
@@ -75,7 +75,7 @@ class WorkDirtValidate extends BaseValidate
             'id',
             'apply_department_id',
             'company_area_id',
-            'work_type_id',
+//            'work_type_id',
             'work_level_id',
             'work_address',
             'start_time',
