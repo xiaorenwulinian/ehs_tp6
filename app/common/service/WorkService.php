@@ -201,7 +201,43 @@ class WorkService {
             ];
         }
 
+        $slingLevelData = [
+            1 => '一级:>100吨',
+            2 => '二级:40-100吨',
+            3 => '三级:40吨以下',
+        ];
+        $slingLevel = [];
+        foreach ($slingLevelData as $k => $v) {
+            $slingLevel[] = [
+                'id'  => $k,
+                'name' => $v,
+            ];
+        }
 
+        $slingDeviceData = [
+            1 => '吊装设备一',
+            2 => '吊装设备二',
+            3 => '吊装设备三',
+        ];
+        $slingDevice = [];
+        foreach ($slingDeviceData as $k => $v) {
+            $slingDevice[] = [
+                'id'  => $k,
+                'name' => $v,
+            ];
+        }
+
+        $openCircuiTypeData = [
+            1 => '车辆禁行',
+            2 => '全部禁行',
+        ];
+        $openCircuiType = [];
+        foreach ($openCircuiTypeData as $k => $v) {
+            $openCircuiType[] = [
+                'id'  => $k,
+                'name' => $v,
+            ];
+        }
 
         $ret = [
             'department' => $department,
@@ -212,6 +248,8 @@ class WorkService {
             'electricLevel' => $electricLevel,
             'electricDevice' => $electricDevice,
             'limitSpareType' => $limitSpareType,
+            'slingLevel' => $slingLevel,
+            'openCircuiType' => $openCircuiType,
             'work_cate' => $work_cate,
         ];
 
