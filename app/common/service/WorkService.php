@@ -343,9 +343,8 @@ class WorkService {
                 'out_confirm_user_id'     => $params['out_confirm_user_id'] ?? 0,
                 'out_charge_user_id'      => $params['out_charge_user_id'] ?? 0,
 
-                'work_link_type'      => $form_type_id,
+                'work_link_type'      => $params['work_link_type'],
                 'addtime'             => $curTime,
-
 
             ];
 

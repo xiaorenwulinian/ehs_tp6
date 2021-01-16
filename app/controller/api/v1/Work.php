@@ -304,7 +304,7 @@ class Work extends ApiBase
 
         foreach ($validArr as $k => $v) {
             if (empty($v)) {
-                return"字段:{$k}必传";
+                return "字段:{$k}必传";
             }
         }
         return true;
