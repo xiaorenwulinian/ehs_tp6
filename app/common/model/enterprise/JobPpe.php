@@ -23,10 +23,10 @@ class JobPpe extends Model
     protected $updateTime = false;
     protected $deleteTime = false;
 
-    public function job()
+ /*   public function job()
     {
         return $this->belongsTo('job','job_id','id');
-    }
+    }*/
     
 
     

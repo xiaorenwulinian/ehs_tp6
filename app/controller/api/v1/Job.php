@@ -390,8 +390,11 @@ class Job extends ApiBase
     public function bindPpeDetail()
     {
         $params = $this->request->param();
+
 //        api_validate(CommonValidate::class, 'detail', $params);
-        $ret = (new JobService())->bindPpeDetail($params['id']);
+        $jobId = $params['id'];
+
+        $ret = (new JobService())->bindPpeDetail($jobId);
         return json($ret);
     }
 

@@ -1049,23 +1049,17 @@ class JobService {
 
     }
 
-    public function bindPpeDetail($id)
+    public function bindPpeDetail($jobId)
     {
-        $data = JobPpe::find($id);
-        if (!$data) {
-            return result_failed('数据不存在');
-        }
+
+        $linkIdArr = JobPpe::where(['job_id'=> $jobId])->column('link_id');
 
         $ppe = Db::name('ppe')
-            ->where([
-//                'type' => 2,
-                'job_id' => $data['job_id'],
-            ])
+            ->whereIn('id', $linkIdArr)
             ->select();
+//        dd($ppe);
         $ret = [
             'ppe' => $ppe,
-//            'environment_factor' => $environment_factor,
-
         ];
         return result_successed($ret);
     }
