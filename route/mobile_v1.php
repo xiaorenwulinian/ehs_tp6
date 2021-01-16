@@ -36,8 +36,8 @@ Route::group('/mobile/v1', function(){
         Route::any('detail', 'mobile.v1.User/detail');
 
     });
-    
 
 
-});
+
+})->middleware([app\middleware\ApiCorsMiddleware::class]);
 

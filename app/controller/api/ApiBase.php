@@ -24,10 +24,7 @@ class ApiBase extends BaseController
 
     public function initialize()
     {
-
-        //跨域请求检测
-        check_cors_request();
-
+        
         $this->_initialize();
 
     }

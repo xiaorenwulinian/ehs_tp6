@@ -307,5 +307,5 @@ Route::group('/api/v1', function(){
 
 
 
-});
+})->middleware([app\middleware\ApiCorsMiddleware::class]);
 
