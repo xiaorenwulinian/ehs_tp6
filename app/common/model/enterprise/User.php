@@ -79,7 +79,7 @@ class User extends Model
             return  '';
         }
 
-        $domain = request()->domain();
+        $domain = "http://file.shhka.com";
         return $domain . '/' . $data['avatar'];
     }
 

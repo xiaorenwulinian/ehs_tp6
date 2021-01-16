@@ -947,7 +947,6 @@ class JobService {
             if ($v['id'] == 0) {
                 $has = Db::name('job_ppe')
                     ->where('job_id',$job_id)
-//                    ->where('ppe_receive_rate',$v['ppe_receive_rate'])
                     ->where('link_id',$v['link_id'])
                     ->count();
                 if ($has < 1) {
@@ -960,12 +959,97 @@ class JobService {
                 }
                 continue;
             }
+        }
+        return result_successed();
+    }
+
+
+    public function bindCourseAdd($params)
+    {
+        $job_id = $params['job_id'];
+        $company_id = $params['company_id'];
+        $linK_ids = $params['linK_ids'];
+        $linK_id_arr = explode(',', $linK_ids);
+
+        foreach ($linK_id_arr as $link_id) {
+            if (empty($link_id)) {
+                continue;
+            }
+
+            $has = Db::name('job_course')
+                ->where('job_id',$job_id)
+                ->where('link_id',$link_id)
+                ->count();
+            if ($has < 1) {
+                Db::name('job_course')->insert([
+                    'link_id'    => $link_id,
+                    'job_id'     => $job_id,
+                    'company_id' => $company_id,
+                ]);
+            }
+            continue;
 
         }
-
         return result_successed();
+    }
 
+    public function bindCourseDelete($params)
+    {
+        $data = JobCourse::find($params['id']);
+        if (!$data) {
+            return result_failed("数据不存在");
+        }
 
+        if ($data['company_id'] != $params['company_id']) {
+            return result_failed("非法攻击");
+        }
+
+        JobCourse::where('id', $params['id'])->delete();
+        return result_successed();
+    }
+
+    public function bindEmergencyAdd($params)
+    {
+        $job_id = $params['job_id'];
+        $company_id = $params['company_id'];
+        $linK_ids = $params['linK_ids'];
+        $linK_id_arr = explode(',', $linK_ids);
+
+        foreach ($linK_id_arr as $link_id) {
+            if (empty($link_id)) {
+                continue;
+            }
+
+            $has = Db::name('job_emergency')
+                ->where('job_id',$job_id)
+                ->where('link_id',$link_id)
+                ->count();
+            if ($has < 1) {
+                Db::name('job_emergency')->insert([
+                    'link_id'    => $link_id,
+                    'job_id'     => $job_id,
+                    'company_id' => $company_id,
+                ]);
+            }
+            continue;
+
+        }
+        return result_successed();
+    }
+
+    public function bindEmergencyDelete($params)
+    {
+        $data = JobEmergency::find($params['id']);
+        if (!$data) {
+            return result_failed("数据不存在");
+        }
+
+        if ($data['company_id'] != $params['company_id']) {
+            return result_failed("非法攻击");
+        }
+
+        JobEmergency::where('id', $params['id'])->delete();
+        return result_successed();
     }
 
     public function bindPpe($params)
