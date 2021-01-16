@@ -327,65 +327,43 @@ class WorkService {
             $out_confirm_user_id     = $params['out_confirm_user_id'] ?? 0;
             $out_charge_user_id      = $params['out_charge_user_id'] ?? 0;
 
-            $out = [
-                '外包现场作业人' => $out_work_user_id,
-                '外包单位' => $out_duty_department_id,
-                '外包监护人' => $out_monitor_user_id,
-                '外包确认人' => $out_confirm_user_id,
-                '外包负责人' => $out_charge_user_id,
-            ];
-
-            $my = [
+            $validate = [
+                1 => [
+                    '外包现场作业人' => $out_work_user_id,
+                    '外包单位' => $out_duty_department_id,
+                    '外包监护人' => $out_monitor_user_id,
+                    '外包确认人' => $out_confirm_user_id,
+                    '外包负责人' => $out_charge_user_id,
+                ],
+                2 => [
 //                'out_work_user_id' => $out_work_user_id,
-                '现场作业人' => $work_user_id,
-                '责任部门' => $duty_department_id,
-                '监护人' => $monitor_user_id,
-                '确认人' => $confirm_user_id,
-                '负责人' => $charge_user_id,
+                    '现场作业人' => $work_user_id,
+                    '责任部门' => $duty_department_id,
+                    '监护人' => $monitor_user_id,
+                    '确认人' => $confirm_user_id,
+                    '负责人' => $charge_user_id,
+                ],
+                3 => [
+                    '现场作业人' => $work_user_id,
+                    '责任部门' => $duty_department_id,
+                    '监护人' => $monitor_user_id,
+                    '确认人' => $confirm_user_id,
+                    '负责人' => $charge_user_id,
+                    '外包现场作业人' => $out_work_user_id,
+                    '外包单位' => $out_duty_department_id,
+                    '外包监护人' => $out_monitor_user_id,
+                    '外包确认人' => $out_confirm_user_id,
+                    '外包负责人' => $out_charge_user_id,
+                ]
             ];
 
-            $cooper = [
-                '现场作业人' => $work_user_id,
-                '责任部门' => $duty_department_id,
-                '监护人' => $monitor_user_id,
-                '确认人' => $confirm_user_id,
-                '负责人' => $charge_user_id,
-                '外包现场作业人' => $out_work_user_id,
-                '外包单位' => $out_duty_department_id,
-                '外包监护人' => $out_monitor_user_id,
-                '外包确认人' => $out_confirm_user_id,
-                '外包负责人' => $out_charge_user_id,
-            ];
-            $operate_type = $params['operate_type'];
-            $operate_type = intval($operate_type);
+            $operate_type = intval($params['operate_type']);
             // 1. 外包， 2本方， 3协作
-            if (1 === $operate_type) {
-                foreach ($out as $k => $v) {
-                    if (empty($v)) {
-                        throw new \Exception("外包字段:{$k}必传");
-                    }
-                }
-//                if (
-//                    empty($out_work_user_id)
-//                    || empty($out_duty_department_id)
-//                    || empty($out_monitor_user_id)
-//                    || empty($out_confirm_user_id)
-//                    || empty($out_charge_user_id)
-//                ) {
-//                    throw new \Exception('外包所有字段必传');
-//                }
-            } elseif (2 === $operate_type) {
-                foreach ($my as $k => $v) {
-                    if (empty($v)) {
-                        throw new \Exception("本方字段:{$k}必传");
-                    }
-                }
+            $validArr = $validate[$operate_type];
 
-            } else {
-                foreach ($cooper as $k => $v) {
-                    if (empty($v)) {
-                        throw new \Exception("协作字段:{$k}必传");
-                    }
+            foreach ($validArr as $k => $v) {
+                if (empty($v)) {
+                    throw new \Exception("字段:{$k}必传");
                 }
             }
 
@@ -399,9 +377,7 @@ class WorkService {
                 'company_id'          => $params['company_id'],
                 'apply_department_id' => $params['apply_department_id'],
                 'company_area_id'     => $params['company_area_id'],
-//                'work_type_id'        => $params['work_type_id'],
-//                'work_level_id'       => $params['work_level_id'],
-//                'work_address'        => $params['work_address'],
+
                 'start_time'          => $params['start_time'],
                 'end_time'            => $params['end_time'],
                 'other_work'          => $params['other_work'] ?? '',
@@ -424,69 +400,18 @@ class WorkService {
 
 
             ];
-            $specialInsert = [];
-            $tableName = '';
-            switch ($params['work_link_type']) {
-                case WorkConstant::WORK_HIGH:
-                    $specialInsert = [
-                        'work_type_id'        => $params['work_type_id'],
-                        'work_level_id'       => $params['work_level_id'],
-                        'work_address'        => $params['work_address'],
-                    ];
-                    $tableName = 'work_high';
-                    break;
-                case WorkConstant::WORK_FIRE:
-                    $specialInsert = [
-//                        'work_type_id'        => $params['work_type_id'],
-                        'work_level_id'       => $params['work_level_id'],
-                        'work_address'        => $params['work_address'],
-                    ];
-                    $tableName = 'work_fire';
-                    break;
-                case WorkConstant::WORK_DIRT:
-                    $specialInsert = [
-                        'work_depth'         => $params['work_depth'],
-                        'work_acreage'       => $params['work_acreage'],
-                        'work_address'        => $params['work_address'],
-                    ];
-                    $tableName = 'work_dirt';
-                    break;
-                case WorkConstant::WORK_ELECTRIC:
-                    $specialInsert = [
-                        'work_device_id'         => $params['work_device_id'],
-                        'work_level_id'       => $params['work_level_id'],
-                    ];
-                    $tableName = 'work_electric';
-                    break;
-                case WorkConstant::WORK_LIMIT_SPARE:
-                    $specialInsert = [
-                        'work_address'        => $params['work_address'],
-                        'work_type_id'       => $params['work_type_id'],
-                    ];
-                    $tableName = 'work_limit_spare';
-                    break;
-                case WorkConstant::WORK_SLING:
-                    $specialInsert = [
-                        'work_device_id'         => $params['work_device_id'],
-                        'work_level_id'       => $params['work_level_id'],
-                    ];
-                    $tableName = 'work_sling';
-                    break;
-                case WorkConstant::WORK_CUTTING_OUT:
-                    $specialInsert = [
-                        'work_address'        => $params['work_address'],
-                        'work_type_id'       => $params['work_type_id'],
-                    ];
-                    $tableName = 'work_cutting_out';
-                    break;
-            }
+
+            $specialData = $this->specialData($params);
+
+            $specialInsert = $specialData['specialInsert'];
+            $tableName     = $specialData['tableName'];
+
             if (empty($tableName)) {
                 throw new \Exception("table not exist！");
             }
 
-//            dd($work_total_insert);
             $work_total_id =  Db::name('work_total')->insertGetId($work_total_insert);
-//            dump($work_total_id);
+
             $work_common_insert = [
                 'company_id'          => $params['company_id'],
                 'apply_department_id' => $params['apply_department_id'],
@@ -526,6 +451,89 @@ class WorkService {
         }
 
         return result_successed();
+    }
+
+    private function specialData($params)
+    {
+        switch ($params['work_link_type']) {
+            case WorkConstant::WORK_HIGH:
+                $specialInsert = [
+                    'work_type_id'        => $params['work_type_id'],
+                    'work_level_id'       => $params['work_level_id'],
+                    'work_address'        => $params['work_address'],
+                ];
+                $tableName = 'work_high';
+                break;
+            case WorkConstant::WORK_FIRE:
+                $specialInsert = [
+//                        'work_type_id'        => $params['work_type_id'],
+                    'work_level_id'       => $params['work_level_id'],
+                    'work_address'        => $params['work_address'],
+                ];
+                $tableName = 'work_fire';
+                break;
+            case WorkConstant::WORK_DIRT:
+                $specialInsert = [
+                    'work_depth'         => $params['work_depth'],
+                    'work_acreage'       => $params['work_acreage'],
+                    'work_address'        => $params['work_address'],
+                ];
+                $tableName = 'work_dirt';
+                break;
+            case WorkConstant::WORK_ELECTRIC:
+                $specialInsert = [
+                    'work_device_id'         => $params['work_device_id'],
+                    'work_level_id'       => $params['work_level_id'],
+                ];
+                $tableName = 'work_electric';
+                break;
+            case WorkConstant::WORK_LIMIT_SPARE:
+                $specialInsert = [
+                    'work_address'        => $params['work_address'],
+                    'work_type_id'       => $params['work_type_id'],
+                ];
+                $tableName = 'work_limit_spare';
+                break;
+            case WorkConstant::WORK_SLING:
+                $specialInsert = [
+                    'work_device_id'         => $params['work_device_id'],
+                    'work_level_id'       => $params['work_level_id'],
+                ];
+                $tableName = 'work_sling';
+                break;
+            case WorkConstant::WORK_CUTTING_OUT:
+                $specialInsert = [
+                    'work_address'        => $params['work_address'],
+                    'work_type_id'        => $params['work_type_id'],
+                ];
+                $tableName = 'work_cutting_out';
+                break;
+            case WorkConstant::WORK_BLIND:
+                $specialInsert = [
+                    'work_address'          => $params['work_address'],
+                    'blind_no'              => $params['blind_no'],
+                    'blind_spec'            => $params['blind_spec'],
+                    'blind_material'        => $params['blind_material'],
+                    'reason'                => $params['reason'],
+                    'device_name'           => $params['device_name'],
+                    'medium'                => $params['medium'],
+                    'pressure'              => $params['pressure'],
+                    'temp'                  => $params['temp'],
+                    'block_effective_date'  => $params['block_effective_date'],
+                    'pump_effective_date'   => $params['pump_effective_date'],
+                ];
+                $tableName = 'work_blind';
+                break;
+            default:
+                $specialInsert = [];
+                $tableName = '';
+                break;
+        }
+
+        return [
+            'specialInsert' => $specialInsert,
+            'tableName' => $tableName,
+        ];
     }
 
 

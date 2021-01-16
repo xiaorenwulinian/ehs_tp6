@@ -3,6 +3,7 @@
 
 namespace app\controller\api\v1;
 
+use app\common\validate\WorkBlindValidate;
 use app\common\validate\WorkCuttingOutValidate;
 use app\controller\api\ApiBase;
 use app\common\constant\WorkConstant;
@@ -238,11 +239,13 @@ class Work extends ApiBase
     public function blindAdd()
     {
         $params = $this->request->param();
-        api_validate(WorkSlingValidate::class, 'add', $params);
+
+        api_validate(WorkBlindValidate::class, 'add', $params);
 
         $companyId = JwtService::getInstance()->getCompanyId();
         $params['company_id'] = $companyId;
         $params['work_link_type'] = WorkConstant::WORK_BLIND;
+
         $ret = (new WorkService())->workCommonAdd($params);
         return json($ret);
     }
