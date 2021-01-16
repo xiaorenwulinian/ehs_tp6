@@ -11,6 +11,8 @@ use app\common\validate\WorkFireValidate;
 use app\common\validate\WorkHighValidate;
 use app\common\validate\WorkDirtValidate;
 use app\common\validate\WorkLimitSpareValidate;
+use app\common\validate\WorkElectricValidate;
+use app\common\validate\WorkSlingValidate;
 
 /**
  * 作业
@@ -178,7 +180,7 @@ class Work extends ApiBase
 
         $companyId = JwtService::getInstance()->getCompanyId();
         $params['company_id'] = $companyId;
-        $params['work_link_type'] = WorkConstant::WORK_LIMIT_SPARE;
+        $params['work_link_type'] = WorkConstant::WORK_SLING;
         $ret = (new WorkService())->workCommonAdd($params);
         return json($ret);
     }

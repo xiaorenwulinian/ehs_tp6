@@ -462,6 +462,13 @@ class WorkService {
                     ];
                     $tableName = 'work_limit_spare';
                     break;
+                case WorkConstant::WORK_SLING:
+                    $specialInsert = [
+                        'work_device_id'         => $params['work_device_id'],
+                        'work_level_id'       => $params['work_level_id'],
+                    ];
+                    $tableName = 'work_sling';
+                    break;
             }
             if (empty($tableName)) {
                 throw new \Exception("table not exist！");
