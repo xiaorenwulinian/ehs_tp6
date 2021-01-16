@@ -3,8 +3,6 @@
 namespace app\common\model\enterprise;
 
 
-use app\common\model\MoneyLog;
-use app\common\model\ScoreLog;
 use think\Model;
 
 class User extends Model
@@ -33,8 +31,6 @@ class User extends Model
 
     protected static function init()
     {
-
-
 
         /*self::beforeUpdate(function ($row) {
             $changedata = $row->getChangedData();
