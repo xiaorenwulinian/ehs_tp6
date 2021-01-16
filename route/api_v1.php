@@ -174,7 +174,11 @@ Route::group('/api/v1', function(){
         Route::any('environmentFactorIndex', 'api.v1.Job/environmentFactorIndex');
         Route::any('roleLabelIndex', 'api.v1.Job/roleLabelIndex');
         Route::any('detail', 'api.v1.Job/detail');
-        Route::any('bindPpe', 'api.v1.Job/bindPpe');
+//        Route::any('bindPpe', 'api.v1.Job/bindPpe');
+        Route::any('bindPpe/add', 'api.v1.Job/bindPpeAdd');
+        Route::any('bindPpe/edit', 'api.v1.Job/bindPpeEdit');
+        Route::any('bindPpe/delete', 'api.v1.Job/bindPpeDelete');
+
         Route::any('bindCourse', 'api.v1.Job/bindCourse');
         Route::any('bindEmergency', 'api.v1.Job/bindEmergency');
         Route::any('bindPpeDetail', 'api.v1.Job/bindPpeDetail');
@@ -278,6 +282,10 @@ Route::group('/api/v1', function(){
         Route::any('limitSpareAdd', 'api.v1.Work/limitSpareAdd');
         Route::any('slingIndex', 'api.v1.Work/slingIndex');
         Route::any('slingAdd', 'api.v1.Work/slingAdd');
+        Route::any('cuttingOutIndex', 'api.v1.Work/cuttingOutIndex');
+        Route::any('cuttingOutAdd', 'api.v1.Work/cuttingOutAdd');
+        Route::any('blindIndex', 'api.v1.Work/blindIndex');
+        Route::any('blindAdd', 'api.v1.Work/blindAdd');
         Route::any('workCommonShow', 'api.v1.Work/workCommonShow');
         Route::any('userSelect', 'api.v1.Work/userSelect');
     });
