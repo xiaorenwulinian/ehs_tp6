@@ -898,6 +898,76 @@ class JobService {
         return result_successed($ret);
     }
 
+    public function bindPpeEdit($params)
+    {
+        $data = JobPpe::find($params['id']);
+        if (!$data) {
+            return result_failed("数据不存在");
+        }
+
+        if ($data['company_id'] != $params['company_id']) {
+            return result_failed("非法攻击");
+        }
+
+        $data->ppe_receive_rate = $params['ppe_receive_rate'];
+        $data->save();
+
+        return result_successed();
+    }
+
+    public function bindPpeDelete($params)
+    {
+        $data = JobPpe::find($params['id']);
+        if (!$data) {
+            return result_failed("数据不存在");
+        }
+
+        if ($data['company_id'] != $params['company_id']) {
+            return result_failed("非法攻击");
+        }
+
+        JobPpe::where('id', $params['id'])->delete();
+        return result_successed();
+    }
+
+    public function bindPpeAdd($params)
+    {
+        $job_id = $params['job_id'];
+        $company_id = $params['company_id'];
+        $ppeContent = $params['ppeContent'] ?? [];
+
+        if (empty($ppeContent)) {
+            return result_failed('添加内容不能为空');
+        }
+
+        foreach ($ppeContent as $v) {
+            if (empty($v['link_id']) || empty($v['ppe_receive_rate'])) {
+                continue;
+            }
+            if ($v['id'] == 0) {
+                $has = Db::name('job_ppe')
+                    ->where('job_id',$job_id)
+//                    ->where('ppe_receive_rate',$v['ppe_receive_rate'])
+                    ->where('link_id',$v['link_id'])
+                    ->count();
+                if ($has < 1) {
+                    Db::name('job_ppe')->insert([
+                        'link_id' => $v['link_id'],
+                        'ppe_receive_rate' => $v['ppe_receive_rate'],
+                        'job_id' => $job_id,
+                        'company_id' => $company_id,
+                    ]);
+                }
+                continue;
+            }
+
+        }
+
+        return result_successed();
+
+
+    }
+
     public function bindPpe($params)
     {
         $job_id = $params['job_id'];

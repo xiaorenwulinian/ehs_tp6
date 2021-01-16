@@ -358,14 +358,56 @@ class Job extends ApiBase
         return json($ret);
     }
 
+    /*
+     * 岗位绑定 ppe 添加
+     */
+    public function bindPpeAdd()
+    {
+        $params = $this->request->param();
+        if (empty($params['job_id']) || empty($params['ppeContent'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindPpeAdd($params);
+        return json($ret);
+    }
+
+    /*
+   * 岗位绑定 ppe 编辑
+   */
+    public function bindPpeEdit()
+    {
+        $params = $this->request->param();
+        if (empty($params['id']) || empty($params['ppe_receive_rate'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindPpeEdit($params);
+        return json($ret);
+    }
+
+    /*
+    * 岗位绑定 ppe 删除
+    */
+    public function bindPpeDelete()
+    {
+        $params = $this->request->param();
+        if (empty($params['id'])) {
+            return json(result_failed("参数必传"));
+        }
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+        $ret = (new JobService())->bindPpeDelete($params);
+        return json($ret);
+    }
+
+
     public function bindPpe()
     {
         $params = $this->request->param();
-//        $params['job_id'] = 2;
-//        $params['link_ids'] = '1,2,3';
+
         $params['identify'] = 'job_ppe';
         $params['company_id'] = JwtService::getInstance()->getCompanyId();
-        $ret = (new JobService())->bindPpe($params);
+        $ret = (new JobService())->bindPpeAdd($params);
         return json($ret);
     }
 
