@@ -397,6 +397,26 @@ class Job extends ApiBase
         $ret = (new JobService())->bindPpeDetail($jobId);
         return json($ret);
     }
+    public function bindCourseDetail()
+    {
+        $params = $this->request->param();
+
+//        api_validate(CommonValidate::class, 'detail', $params);
+        $jobId = $params['id'];
+
+        $ret = (new JobService())->bindCourseDetail($jobId);
+        return json($ret);
+    }
+    public function bindEmergencyDetail()
+    {
+        $params = $this->request->param();
+
+//        api_validate(CommonValidate::class, 'detail', $params);
+        $jobId = $params['id'];
+
+        $ret = (new JobService())->bindEmergencyDetail($jobId);
+        return json($ret);
+    }
 
 
 }

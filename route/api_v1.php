@@ -178,7 +178,8 @@ Route::group('/api/v1', function(){
         Route::any('bindCourse', 'api.v1.Job/bindCourse');
         Route::any('bindEmergency', 'api.v1.Job/bindEmergency');
         Route::any('bindPpeDetail', 'api.v1.Job/bindPpeDetail');
-
+        Route::any('bindCourseDetail', 'api.v1.Job/bindCourseDetail');
+        Route::any('bindEmergencyDetail', 'api.v1.Job/bindEmergencyDetail');
     });
 
     Route::group('job_avoid', function () {

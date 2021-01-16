@@ -195,6 +195,54 @@ class Work extends ApiBase
 //        return json($ret);
 //    }
 
+/*
+ * 断路
+ */
+    public function openCircuiIndex()
+    {
+        $params = $this->request->param();
+        $companyId = JwtService::getInstance()->getCompanyId();
+        $params['company_id'] = $companyId;
+        $params['table_name'] = 'work_sling';
+        $ret = (new WorkService())->workCommonIndex($params);
+        return json($ret);
+    }
+    public function openCircuiAdd()
+    {
+        $params = $this->request->param();
+        api_validate(WorkSlingValidate::class, 'add', $params);
+
+        $companyId = JwtService::getInstance()->getCompanyId();
+        $params['company_id'] = $companyId;
+        $params['work_link_type'] = WorkConstant::WORK_LIMIT_SPARE;
+        $ret = (new WorkService())->workCommonAdd($params);
+        return json($ret);
+    }
+
+
+    /*
+     * 盲板
+     */
+    public function BlindIndex()
+    {
+        $params = $this->request->param();
+        $companyId = JwtService::getInstance()->getCompanyId();
+        $params['company_id'] = $companyId;
+        $params['table_name'] = 'work_sling';
+        $ret = (new WorkService())->workCommonIndex($params);
+        return json($ret);
+    }
+    public function BlindAdd()
+    {
+        $params = $this->request->param();
+        api_validate(WorkSlingValidate::class, 'add', $params);
+
+        $companyId = JwtService::getInstance()->getCompanyId();
+        $params['company_id'] = $companyId;
+        $params['work_link_type'] = WorkConstant::WORK_LIMIT_SPARE;
+        $ret = (new WorkService())->workCommonAdd($params);
+        return json($ret);
+    }
 
     public function workCommonShow()
     {
