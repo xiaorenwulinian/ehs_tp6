@@ -260,6 +260,9 @@ class Job extends ApiBase
 
         return json($ret);
     }
+    /*
+     *应急预案新增
+     */
     public function emergencyPlanAdd()
     {
         if ($this->request->isGet()) {
@@ -284,6 +287,9 @@ class Job extends ApiBase
         return json($ret);
     }
 
+    /*
+     *应急预案编辑
+     */
     public function emergencyPlanEdit()
     {
         if ($this->request->isGet()) {
@@ -415,7 +421,7 @@ class Job extends ApiBase
     }
 
     /*
-    * 岗位绑定 ppe 删除
+    * 岗位绑定 课程 删除
     */
     public function bindCourseDelete()
     {
@@ -456,35 +462,9 @@ class Job extends ApiBase
         return json($ret);
     }
 
-
-    public function bindPpe()
-    {
-        $params = $this->request->param();
-
-        $params['identify'] = 'job_ppe';
-        $params['company_id'] = JwtService::getInstance()->getCompanyId();
-        $ret = (new JobService())->bindPpeAdd($params);
-        return json($ret);
-    }
-
-    public function bindCourse()
-    {
-        $params = $this->request->param();
-        $params['identify'] = 'job_course';
-        $params['company_id'] = JwtService::getInstance()->getCompanyId();
-        $ret = (new JobService())->bind($params);
-        return json($ret);
-    }
-
-    public function bindEmergency()
-    {
-        $params = $this->request->param();
-        $params['identify'] = 'job_emergency';
-        $params['company_id'] = JwtService::getInstance()->getCompanyId();
-        $ret = (new JobService())->bind($params);
-        return json($ret);
-    }
-
+    /*
+     *岗位绑定ppe详情
+     */
     public function bindPpeDetail()
     {
         $params = $this->request->param();
@@ -495,6 +475,10 @@ class Job extends ApiBase
         $ret = (new JobService())->bindPpeDetail($jobId);
         return json($ret);
     }
+
+    /*
+     *岗位绑定课程详情
+     */
     public function bindCourseDetail()
     {
         $params = $this->request->param();
@@ -506,6 +490,9 @@ class Job extends ApiBase
 //        dd($ret);
         return json($ret);
     }
+    /*
+     *岗位绑定紧急预案详情
+     */
     public function bindEmergencyDetail()
     {
         $params = $this->request->param();
