@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\EhsPointCheckTime;
+use app\common\model\EhsPointCheckTimeModel;
 
 /**
  *
@@ -27,9 +27,9 @@ class EhsPointCheckTimeService
             $where['point_name'] = ['like', "%{$params['point_name']}%"];
         }
 
-        $count = EhsPointCheckTime::where($where)->count();
+        $count = EhsPointCheckTimeModel::where($where)->count();
 
-        $data = EhsPointCheckTime::where($where)
+        $data = EhsPointCheckTimeModel::where($where)
             ->limit($offset, $pageSize)
             ->order('id','desc')
             ->select();
@@ -47,7 +47,7 @@ class EhsPointCheckTimeService
     {
         try {
 
-            $data = EhsPointCheckTime::create($params);
+            $data = EhsPointCheckTimeModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -61,7 +61,7 @@ class EhsPointCheckTimeService
     {
         try {
 
-            $data = EhsPointCheckTime::find($params['id']);
+            $data = EhsPointCheckTimeModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该部门");
             }

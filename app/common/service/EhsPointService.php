@@ -2,8 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\EhsPoint;
-
+use app\common\model\EhsPointModel;
 
 /**
  *
@@ -27,9 +26,9 @@ class EhsPointService {
             $where['point_name'] = ['like', "%{$params['point_name']}%"];
         }
 
-        $count = EhsPoint::where($where)->count();
+        $count = EhsPointModel::where($where)->count();
 
-        $data = EhsPoint::with([
+        $data = EhsPointModel::with([
             'job',
             'companyArea',
             'ehsPointCheckTime'
@@ -69,7 +68,7 @@ class EhsPointService {
     {
         try {
 
-            EhsPoint::create($params);
+            EhsPointModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -83,7 +82,7 @@ class EhsPointService {
     {
         try {
 
-            $data = EhsPoint::find($params['id']);
+            $data = EhsPointModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -104,7 +103,7 @@ class EhsPointService {
 
     public function delete($id)
     {
-        $data = EhsPoint::find($id);
+        $data = EhsPointModel::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }

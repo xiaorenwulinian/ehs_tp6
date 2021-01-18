@@ -5,9 +5,7 @@ namespace app\common\service;
 
 use app\common\constant\CommonConstant;
 use app\common\constant\ObjectConstant;
-use app\common\model\enterprise\EhsCourse;
-use app\common\model\enterprise\EmergencyPlan;
-use app\common\model\enterprise\Facility;
+use app\common\model\EmergencyPlanModel;
 use app\common\model\enterprise\Job;
 use app\common\model\enterprise\JobQualify;
 use app\common\model\enterprise\JobSetting;
@@ -15,6 +13,7 @@ use app\common\model\enterprise\PpeModel;
 use app\common\model\enterprise\JobPpe;
 use app\common\model\enterprise\JobEmergency;
 use app\common\model\enterprise\JobCourse;
+use app\common\model\FacilityModel;
 use app\common\traits\SingletonTrait;
 use think\facade\Db;
 
@@ -512,9 +511,9 @@ class JobService {
         if (!empty($params['department_id'])) {
             $where['department_id'] = ['=', $params['department_id']];
         }
-        $count = EmergencyPlan::where($where)->count();
+        $count = EmergencyPlanModel::where($where)->count();
 
-        $data = EmergencyPlan::with([
+        $data = EmergencyPlanModel::with([
             'job',
             'department'
         ])
@@ -546,7 +545,7 @@ class JobService {
     {
         try {
 
-            $data = EmergencyPlan::create($params);
+            $data = EmergencyPlanModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -560,7 +559,7 @@ class JobService {
     {
         try {
 //            dump($params);
-            $data = EmergencyPlan::find($params['id']);
+            $data = EmergencyPlanModel::find($params['id']);
 
             if (!$data) {
 
@@ -571,7 +570,7 @@ class JobService {
                 throw new \Exception("只能操作本公司数据");
             }
             if ($data->name != $params['name']) {
-                $has =  EmergencyPlan::where('name',$params['name'])
+                $has =  EmergencyPlanModel::where('name',$params['name'])
                     ->where('id','<>',$params['id'])
                     ->count();
                 if ($has > 0) {
@@ -645,7 +644,7 @@ class JobService {
 
             ];
             if ($v['type'] === 1) {
-                $t = Facility::with([
+                $t = FacilityModel::with([
                     'companyArea',
                     'department',
                 ])
@@ -738,7 +737,7 @@ class JobService {
 
             ];
             if ($v['type'] === 1) {
-                $t = Facility::with([
+                $t = FacilityModel::with([
                     'companyArea',
                     'department',
                 ])
@@ -1366,7 +1365,7 @@ class JobService {
         return result_successed($ret);
         $linkIdArr = JobEmergency::where(['job_id'=> $jobId])->column('link_id');
 
-        $emergency = EmergencyPlan::with([
+        $emergency = EmergencyPlanModel::with([
                 'department',
                 'job',
             ])

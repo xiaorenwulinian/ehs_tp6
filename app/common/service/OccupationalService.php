@@ -4,8 +4,9 @@ namespace app\common\service;
 
 use app\common\library\StringLib;
 use app\common\model\CompanyAreaModel;
-use app\common\model\enterprise\Facility;
 use app\common\model\enterprise\Job;
+use app\common\model\FacilityModel;
+use app\common\model\OcTabooModel;
 use think\facade\Db;
 
 
@@ -93,7 +94,7 @@ class OccupationalService {
                 'facility_no'        => $this->generatorFacilityNo(),
             ];
 
-            $facility = Facility::create($insert);
+            $facility = FacilityModel::create($insert);
 
             $facilityId = $facility->id;
 
@@ -190,7 +191,7 @@ class OccupationalService {
 
         Db::startTrans();
         try {
-            $data = Facility::find($params['id']);
+            $data = FacilityModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -506,7 +507,7 @@ class OccupationalService {
 
     public function delete($id)
     {
-        $data = Facility::get($id);
+        $data = FacilityModel::get($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -523,7 +524,7 @@ class OccupationalService {
 
     public function detail($id)
     {
-        $data = Facility::get($id);
+        $data = FacilityModel::get($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -577,9 +578,9 @@ class OccupationalService {
 
         $where = [];
 
-        $count = OcHarmFactorModel::where($where)->count();
+        $count = OcTabooModel::where($where)->count();
 
-        $data = OcHarmFactorModel::where($where)
+        $data = OcTabooModel::where($where)
             ->limit($offset, $pageSize)
             ->select();
 

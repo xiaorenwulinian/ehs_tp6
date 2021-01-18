@@ -6,10 +6,10 @@ use app\common\model\CompanyAreaModel;
 use app\common\model\DeviceBraceletMachineModel;
 use app\common\model\DeviceCameraModel;
 use app\common\model\DeviceIdentifyMachineModel;
-use app\common\model\enterprise\DeviceLocationPoint;
-use app\common\model\enterprise\DevicePatrolPoint;
-use app\common\model\enterprise\DeviceRfid;
-use app\common\model\enterprise\DeviceLimitedSpace;
+use app\common\model\DeviceLimitedSpaceModel;
+use app\common\model\DeviceLocationPointModel;
+use app\common\model\DevicePatrolPointModel;
+use app\common\model\DeviceRfidModel;
 use think\facade\Db;
 
 
@@ -35,9 +35,9 @@ class DeviceService {
             $where['name'] = ['like', "%{$params['name']}%"];
         }
 
-        $count = DeviceRfid::where($where)->count();
+        $count = DeviceRfidModel::where($where)->count();
 
-        $data = DeviceRfid::where($where)
+        $data = DeviceRfidModel::where($where)
             ->limit($offset, $pageSize)
             ->order('id','desc')
             ->select();
@@ -67,7 +67,7 @@ class DeviceService {
     {
         try {
 
-           $has =  DeviceRfid::where('ip',$params['ip'])
+           $has =  DeviceRfidModel::where('ip',$params['ip'])
                ->where('company_id',$params['company_id'])
                ->count();
 
@@ -79,7 +79,7 @@ class DeviceService {
 
             $lineNum = $params['line_num'] ?? 1;
             unset($params['line_num']);
-            $data = DeviceRfid::create($params);
+            $data = DeviceRfidModel::create($params);
 
             if ($params['type'] == 2) {
 
@@ -112,7 +112,7 @@ class DeviceService {
     {
         try {
 
-            $data = DeviceRfid::find($params['id']);
+            $data = DeviceRfidModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -122,7 +122,7 @@ class DeviceService {
             }
 
             if ($data->ip != $params['ip']) {
-                $has =  DeviceRfid::where('ip',$params['ip'])
+                $has =  DeviceRfidModel::where('ip',$params['ip'])
                     ->where('id','<>',$params['id'])
                     ->where('company_id',$params['company_id'])
                     ->count();
@@ -158,10 +158,10 @@ class DeviceService {
         }
 
 
-        $count = DeviceLocationPoint::where($where)->count();
+        $count = DeviceLocationPointModel::where($where)->count();
 
 
-        $data = DeviceLocationPoint::with([
+        $data = DeviceLocationPointModel::with([
             'locationDevice',
             'companyArea',
         ])
@@ -200,7 +200,7 @@ class DeviceService {
     public function locationPointAdd($params)
     {
         try {
-            $has =  DeviceLocationPoint::where('rfid_id',$params['rfid_id'])
+            $has =  DeviceLocationPointModel::where('rfid_id',$params['rfid_id'])
                 ->where('company_id',$params['company_id'])
                 ->count();
 
@@ -216,7 +216,7 @@ class DeviceService {
             $locationPointNo = (new NumberConfigService)->generatorNoLocationPoint($params['company_id'],$params['company_area_id']);
             $params['device_no'] = $locationPointNo;
 
-            DeviceLocationPoint::create($params);
+            DeviceLocationPointModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -245,9 +245,9 @@ class DeviceService {
             $where['company_area_id'] = ['=', $params['company_area_id']];
         }
 
-        $count = DevicePatrolPoint::where($where)->count();
+        $count = DevicePatrolPointModel::where($where)->count();
 
-        $data = DevicePatrolPoint::with(['companyArea'])
+        $data = DevicePatrolPointModel::with(['companyArea'])
             ->where($where)
             ->limit($offset, $pageSize)
             ->order('id','desc')
@@ -280,7 +280,7 @@ class DeviceService {
     {
         try {
 
-            $has =  DevicePatrolPoint::where('company_area_id',$params['company_area_id'])
+            $has =  DevicePatrolPointModel::where('company_area_id',$params['company_area_id'])
                 ->where('name',$params['name'])
                 ->count();
 
@@ -295,7 +295,7 @@ class DeviceService {
             }
 
 //            $params['device_no'] = StringLib::random(12);
-            DevicePatrolPoint::create($params);
+            DevicePatrolPointModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -309,7 +309,7 @@ class DeviceService {
     {
         try {
 
-            $data = DevicePatrolPoint::find($params['id']);
+            $data = DevicePatrolPointModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -319,7 +319,7 @@ class DeviceService {
             }
 
             if ($data->name != $params['name']) {
-                $has =  DevicePatrolPoint::where('name',$params['name'])
+                $has =  DevicePatrolPointModel::where('name',$params['name'])
                     ->where('id','<>',$params['id'])
                     ->where('company_area_id', $data->company_area_id)
                     ->count();
@@ -684,9 +684,9 @@ class DeviceService {
         }
 
 
-        $count = DeviceLimitedSpace::where($where)->count();
+        $count = DeviceLimitedSpaceModel::where($where)->count();
 
-        $data = DeviceLimitedSpace::with([
+        $data = DeviceLimitedSpaceModel::with([
             'companyArea',
             'department',
             'deviceCamera',
@@ -728,14 +728,14 @@ class DeviceService {
     {
         try {
 
-            $has =  DeviceLimitedSpace::where('company_id',$params['company_id'])
+            $has =  DeviceLimitedSpaceModel::where('company_id',$params['company_id'])
                 ->where('name',$params['name'])
                 ->count();
 
             if ($has > 0) {
                 throw new \Exception('有限空间名称重复');
             }
-            DeviceLimitedSpace::create($params);
+            DeviceLimitedSpaceModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -749,7 +749,7 @@ class DeviceService {
     {
         try {
 
-            $data = DeviceLimitedSpace::find($params['id']);
+            $data = DeviceLimitedSpaceModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -759,7 +759,7 @@ class DeviceService {
             }
 
             if ($data->name != $params['name']) {
-                $has =  DeviceLimitedSpace::where('name',$params['name'])
+                $has =  DeviceLimitedSpaceModel::where('name',$params['name'])
                     ->where('id','<>',$params['id'])
                     ->count();
 

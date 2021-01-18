@@ -9,7 +9,7 @@ use app\common\constant\WorkConstant;
 use app\common\library\ArrayLib;
 use app\common\model\CompanyAreaModel;
 use app\common\model\DepartmentModel;
-use app\common\model\enterprise\DeviceRfid;
+use app\common\model\DeviceRfidModel;
 use app\common\service\JwtService;
 use app\controller\api\ApiBase;
 use think\facade\Db;
@@ -268,7 +268,7 @@ class CommonSelectBox extends ApiBase
 
     public function rfidDevice()
     {
-        $data = DeviceRfid::SCENE_ARR;
+        $data = DeviceRfidModel::SCENE_ARR;
         $scene = request()->param('scene');
 
         $where = [];
