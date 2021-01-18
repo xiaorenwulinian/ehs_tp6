@@ -93,6 +93,7 @@ Route::group('/api/v1', function(){
         Route::any('parentSelectBox', 'api.v1.Department/parentSelectBox');
         Route::any('job', 'api.v1.Department/job');
         Route::any('info', 'api.v1.Department/info');
+        Route::any('directorInfo', 'api.v1.Department/directorInfo');
     });
 
     Route::group('device', function () {

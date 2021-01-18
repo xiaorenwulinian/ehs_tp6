@@ -200,5 +200,17 @@ class Department extends ApiBase
 
         return json(result_successed($ret));
     }
+    public function directorInfo()
+    {
+        $departmentId = $this->request->param('id');
+
+        $userId = DepartmentModel::where('id', $departmentId)->value('duty_user_id');
+
+        $list = UserModel::where('id', $userId)->column('nickname','id');
+
+
+        return json(result_successed(compact('list')));
+
+    }
 
 }
