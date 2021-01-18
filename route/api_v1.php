@@ -182,7 +182,7 @@ Route::group('/api/v1', function(){
 
         Route::any('bindCourse/add', 'api.v1.Job/bindCourseAdd');
         Route::any('bindCourse/delete', 'api.v1.Job/bindCourseDelete');
-//        Route::any('bindCourse', 'api.v1.Job/bindCourse');
+//        Route::any('course/unbind', 'api.v1.Job/courseUnbind');
         Route::any('bindCourseDetail', 'api.v1.Job/bindCourseDetail');
 
         Route::any('bindEmergency/add', 'api.v1.Job/bindEmergencyAdd');
