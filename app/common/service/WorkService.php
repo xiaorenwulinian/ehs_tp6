@@ -5,7 +5,7 @@ namespace app\common\service;
 use app\common\constant\WorkConstant;
 use app\common\library\ArrayLib;
 use app\common\model\CompanyAreaModel;
-use app\common\model\enterprise\WorkHigh;
+use app\common\model\WorkHighModel;
 use think\facade\Db;
 
 
@@ -33,7 +33,7 @@ class WorkService {
         $tableName = $params['table_name'];
         $count = Db::name($tableName)->where($where)->count();
 
-        $data = WorkHigh::with([
+        $data = WorkHighModel::with([
                 'applyDepartment',
                 'companyArea',
             ])
@@ -49,8 +49,8 @@ class WorkService {
             ->select();
 
         */
-        $highTypeArr = WorkHigh::HIGH_TYPE_ARR;
-        $highLevelArr = WorkHigh::HIGH_LEVEL_ARR;
+        $highTypeArr = WorkHighModel::HIGH_TYPE_ARR;
+        $highLevelArr = WorkHighModel::HIGH_LEVEL_ARR;
 
         $operateTypeArr = [
             1 => '外包',  2 => '本方',  3 => '协作'
@@ -140,7 +140,7 @@ class WorkService {
         $companyArea = ArrayLib::getTreeMulti($companyArea);
 
 
-        $highLevelData = WorkHigh::HIGH_LEVEL_ARR;
+        $highLevelData = WorkHighModel::HIGH_LEVEL_ARR;
         $highLevel = [];
         foreach ($highLevelData as $k => $v) {
             $highLevel[] = [
@@ -150,7 +150,7 @@ class WorkService {
         }
 
 
-        $work_high_typeData = WorkHigh::HIGH_TYPE_ARR;
+        $work_high_typeData = WorkHighModel::HIGH_TYPE_ARR;
         $work_high_type = [];
         foreach ($work_high_typeData as $k => $v) {
             $work_high_type[] = [
@@ -294,9 +294,9 @@ class WorkService {
         $where['company_id'] = ['=', $params['company_id']];
 
 
-        $count = WorkHigh::where($where)->count();
+        $count = WorkHighModel::where($where)->count();
 
-        $data = WorkHigh::with([
+        $data = WorkHighModel::with([
 //            'companyArea',
 //            'leaderJob',
         ])->where($where)

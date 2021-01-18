@@ -6,14 +6,14 @@ namespace app\common\service;
 use app\common\constant\CommonConstant;
 use app\common\constant\ObjectConstant;
 use app\common\model\EmergencyPlanModel;
-use app\common\model\enterprise\Job;
-use app\common\model\enterprise\JobQualify;
-use app\common\model\enterprise\JobSetting;
+use app\common\model\enterprise\JobCourseModel;
 use app\common\model\enterprise\PpeModel;
-use app\common\model\enterprise\JobPpe;
-use app\common\model\enterprise\JobEmergency;
-use app\common\model\enterprise\JobCourse;
 use app\common\model\FacilityModel;
+use app\common\model\JobEmergencyModel;
+use app\common\model\JobModel;
+use app\common\model\JobPpeModel;
+use app\common\model\JobQualifyModel;
+use app\common\model\JobSettingModel;
 use app\common\traits\SingletonTrait;
 use think\facade\Db;
 
@@ -43,9 +43,9 @@ class JobService {
             $where['job_name'] = ['like', "%{$params['job_name']}%"];
         }
 
-        $count = Job::where($where)->count();
+        $count = JobModel::where($where)->count();
 
-        $data = Job::with([
+        $data = JobModel::with([
             'companyArea',
             'department',
         ])
@@ -153,7 +153,7 @@ class JobService {
                 'job_role_label_id' => $params['job_role_label_id'] ?? 0,
                 'harm_factor_id' => $params['harm_factor_id'] ?? '',
             ];
-            $job = Job::create($insert);
+            $job = JobModel::create($insert);
             $jobId = $job->id;
 
             $dangerSourceContent = $params['danger_source_content'] ?? [];
@@ -219,7 +219,7 @@ class JobService {
     {
         try {
 
-            $job = Job::find($params['id']);
+            $job = JobModel::find($params['id']);
             if (!$job) {
                 throw new \Exception("未发现该职位");
             }
@@ -253,7 +253,7 @@ class JobService {
 
     public function delete($id)
     {
-        $data = Job::find($id);
+        $data = JobModel::find($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -285,9 +285,9 @@ class JobService {
             $where['qualify_name'] = ['like', "%{$params['qualify_name']}%"];
         }
 
-        $count = JobQualify::where($where)->count();
+        $count = JobQualifyModel::where($where)->count();
 
-        $data = JobQualify::where($where)
+        $data = JobQualifyModel::where($where)
             ->field([
                 'job_qualify_id',
                 'qualify_name',
@@ -334,9 +334,9 @@ class JobService {
             $where['rfid_id'] = ['=', $params['rfid_id']];
         }
 
-        $count = JobSetting::where($where)->count();
+        $count = JobSettingModel::where($where)->count();
 
-        $data = JobSetting::with([
+        $data = JobSettingModel::with([
             'companyArea',
             'job',
             'rfidDevice',
@@ -383,7 +383,7 @@ class JobService {
         try {
             $settingNo = (new NumberConfigService)->generatorNoJobSetting($params['company_id'], $params['company_area_id']);
             $params['setting_no'] = $settingNo;
-            JobSetting::create($params);
+            JobSettingModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -660,7 +660,7 @@ class JobService {
                 $temp['department_name'] = $t['department']['department_name'] ?? '';
 
             } else {
-                $t = Job::with([
+                $t = JobModel::with([
                     'department',
                 ])
                     ->where('id', $v['facility_id'])
@@ -754,7 +754,7 @@ class JobService {
                 $temp['department_name'] = $t['department']['department_name'] ?? '';
 
             } else {
-                $t = Job::with([
+                $t = JobModel::with([
                     'department',
                 ])
                     ->where('id', $v['facility_id'])
@@ -822,7 +822,7 @@ class JobService {
 
     public function detail($id)
     {
-        $data = Job::find($id);
+        $data = JobModel::find($id);
         if (!$data) {
             return result_failed('数据不存在');
         }
@@ -899,7 +899,7 @@ class JobService {
 
     public function bindPpeEdit($params)
     {
-        $data = JobPpe::find($params['id']);
+        $data = JobPpeModel::find($params['id']);
         if (!$data) {
             return result_failed("数据不存在");
         }
@@ -916,7 +916,7 @@ class JobService {
 
     public function bindPpeDelete($params)
     {
-        $data = JobPpe::find($params['id']);
+        $data = JobPpeModel::find($params['id']);
         if (!$data) {
             return result_failed("数据不存在");
         }
@@ -925,7 +925,7 @@ class JobService {
             return result_failed("非法攻击");
         }
 
-        JobPpe::where('id', $params['id'])->delete();
+        JobPpeModel::where('id', $params['id'])->delete();
         return result_successed();
     }
 
@@ -995,7 +995,7 @@ class JobService {
 
     public function bindCourseDelete($params)
     {
-        $data = JobCourse::find($params['id']);
+        $data = JobCourseModel::find($params['id']);
         if (!$data) {
             return result_failed("数据不存在");
         }
@@ -1004,7 +1004,7 @@ class JobService {
             return result_failed("非法攻击");
         }
 
-        JobCourse::where('id', $params['id'])->delete();
+        JobCourseModel::where('id', $params['id'])->delete();
         return result_successed();
     }
 
@@ -1039,7 +1039,7 @@ class JobService {
 
     public function bindEmergencyDelete($params)
     {
-        $data = JobEmergency::find($params['id']);
+        $data = JobEmergencyModel::find($params['id']);
         if (!$data) {
             return result_failed("数据不存在");
         }
@@ -1048,7 +1048,7 @@ class JobService {
             return result_failed("非法攻击");
         }
 
-        JobEmergency::where('id', $params['id'])->delete();
+        JobEmergencyModel::where('id', $params['id'])->delete();
         return result_successed();
     }
 
@@ -1236,7 +1236,7 @@ class JobService {
             'list' => $list,
         ];
         return result_successed($ret);
-        $linkIdArr = JobPpe::where(['job_id'=> $jobId])->column('link_id');
+        $linkIdArr = JobPpeModel::where(['job_id'=> $jobId])->column('link_id');
 
         $ppe = Db::name('ppe')
             ->whereIn('id', $linkIdArr)
@@ -1363,7 +1363,7 @@ class JobService {
             'list' => $list,
         ];
         return result_successed($ret);
-        $linkIdArr = JobEmergency::where(['job_id'=> $jobId])->column('link_id');
+        $linkIdArr = JobEmergencyModel::where(['job_id'=> $jobId])->column('link_id');
 
         $emergency = EmergencyPlanModel::with([
                 'department',

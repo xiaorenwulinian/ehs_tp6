@@ -10,6 +10,7 @@ use app\common\library\ArrayLib;
 use app\common\model\CompanyAreaModel;
 use app\common\model\DepartmentModel;
 use app\common\model\DeviceRfidModel;
+use app\common\model\JobModel;
 use app\common\service\JwtService;
 use app\controller\api\ApiBase;
 use think\facade\Db;
@@ -91,7 +92,7 @@ class CommonSelectBox extends ApiBase
      */
     public function job()
     {
-        $data = \app\common\model\enterprise\Job::where('is_deleted', '=', 0)
+        $data = JobModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $this->companyId)
             ->field(['id as id', 'job_name as name'])
             ->select();

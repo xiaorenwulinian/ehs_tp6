@@ -23,13 +23,6 @@ class JobQualify extends Model
     protected $updateTime = false;
     protected $deleteTime = false;
 
-    
-
-    
-
-
-
-
 
     public function job()
     {

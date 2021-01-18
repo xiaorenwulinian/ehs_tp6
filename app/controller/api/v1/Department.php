@@ -4,6 +4,7 @@
 namespace app\controller\api\v1;
 
 use app\common\model\DepartmentModel;
+use app\common\model\JobModel;
 use app\common\model\UserModel;
 use app\controller\api\ApiBase;
 use app\common\service\DepartmentService;
@@ -165,7 +166,7 @@ class Department extends ApiBase
         $departmentId = input('id');
 
 
-        $list = \app\common\model\enterprise\Job::where('is_deleted','=',0)
+        $list = JobModel::where('is_deleted','=',0)
             ->where('department_id','=', $departmentId)
             ->field(['id', 'job_name as name'])
             ->select();
@@ -177,7 +178,7 @@ class Department extends ApiBase
     public function info()
     {
         $departmentId = input('id');
-        $job = \app\common\model\enterprise\Job::where('is_deleted','=',0)
+        $job = JobModel::where('is_deleted','=',0)
             ->where('department_id','=', $departmentId)
             ->field(['id', 'job_name as name'])
             ->select();

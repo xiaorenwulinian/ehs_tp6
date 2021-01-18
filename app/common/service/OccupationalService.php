@@ -4,9 +4,10 @@ namespace app\common\service;
 
 use app\common\library\StringLib;
 use app\common\model\CompanyAreaModel;
-use app\common\model\enterprise\Job;
 use app\common\model\FacilityModel;
+use app\common\model\JobModel;
 use app\common\model\OcTabooModel;
+use app\common\model\OcTestPlanModel;
 use think\facade\Db;
 
 
@@ -612,8 +613,6 @@ class OccupationalService {
 //        $where['is_deleted'] = ['=', 0];
 //        $where['company_id'] = ['=', $params['company_id']];
 
-
-
         $count = OcTestPlanModel::where($where)->count();
 
         $data = OcTestPlanModel::with([
@@ -686,7 +685,7 @@ class OccupationalService {
 //            if ($has > 0) {
 //                throw new \Exception('体检项目不能为空');
 //            }
-            $params['test_item'] = Job::where('id',$params['job_id'])
+            $params['test_item'] = JobModel::where('id',$params['job_id'])
                 ->value('harm_factor_id');
             OcTestPlanModel::create($params);
 //
@@ -702,7 +701,7 @@ class OccupationalService {
     {
 
         try {
-            $data = OcTestPlanModel::get($params['id']);
+            $data = OcTestPlanModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -716,7 +715,7 @@ class OccupationalService {
             $data->job_id = $params['job_id'];
             $data->before_time           = $params['before_time'];
             $data->next_time       = $params['next_time'];
-            $test_item = Job::where('id',$params['job_id'])
+            $test_item = JobModel::where('id',$params['job_id'])
                 ->value('harm_factor_id');
             $data->test_item       = $test_item;
             $data->is_job       = $params['is_job'];
