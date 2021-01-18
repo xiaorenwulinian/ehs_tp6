@@ -11,7 +11,7 @@ use app\common\model\enterprise\Facility;
 use app\common\model\enterprise\Job;
 use app\common\model\enterprise\JobQualify;
 use app\common\model\enterprise\JobSetting;
-use app\common\model\enterprise\Ppe;
+use app\common\model\enterprise\PpeModel;
 use app\common\model\enterprise\JobPpe;
 use app\common\model\enterprise\JobEmergency;
 use app\common\model\enterprise\JobCourse;
@@ -405,9 +405,9 @@ class JobService {
             $where['name'] = ['like', "%{$params['name']}%"];
         }
 
-        $count = Ppe::where($where)->count();
+        $count = PpeModel::where($where)->count();
 
-        $data = Ppe::where($where)
+        $data = PpeModel::where($where)
             ->limit($offset, $pageSize)
             ->order('id','desc')
             ->select();
@@ -441,7 +441,7 @@ class JobService {
     {
         try {
 
-           Ppe::create($params);
+           PpeModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -455,7 +455,7 @@ class JobService {
     {
         try {
 //dd(1);
-            $data = Ppe::find($params['id']);
+            $data = PpeModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -464,7 +464,7 @@ class JobService {
                 throw new \Exception("只能操作本公司数据");
             }
             if ($data->name != $params['name']) {
-                $has =  Ppe::where('name',$params['name'])
+                $has =  PpeModel::where('name',$params['name'])
                     ->where('id','<>',$params['id'])
                     ->count();
 

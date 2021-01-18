@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\RecordCheckPoint;
+use app\common\model\enterprise\RecordCheckPointModel;
 
 
 /**
@@ -68,9 +68,9 @@ class RecordCheckPointService {
         }*/
 
 
-        $count = RecordCheckPoint::where($where)->count();
+        $count = RecordCheckPointModel::where($where)->count();
 
-        $data = RecordCheckPoint::where($where)
+        $data = RecordCheckPointModel::where($where)
             ->limit($offset, $pageSize)
             ->order('record_check_point_id','desc')
             ->select();
