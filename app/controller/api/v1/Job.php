@@ -487,6 +487,7 @@ class Job extends ApiBase
         $jobId = $params['id'];
 
         $ret = (new JobService())->bindCourseDetail($jobId);
+//        dd($ret);
         return json($ret);
     }
     /*

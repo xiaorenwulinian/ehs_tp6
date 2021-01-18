@@ -49,12 +49,19 @@ class WorkService {
 
         */
         $highTypeArr = WorkHigh::HIGH_TYPE_ARR;
+        $highLevelArr = WorkHigh::HIGH_LEVEL_ARR;
+
+        $operateTypeArr = [
+            1 => '外包',  2 => '本方',  3 => '协作'
+        ];
         $newData = [];
         foreach ($data as $v) {
             $temp = $v;
             $temp['department_name'] = $v['applyDepartment']['department_name'] ?? '';
             $temp['company_area_name'] = $v['companyArea']['name'] ?? '';
             $temp['work_type_name'] = $highTypeArr[$v['work_type_id']] ?? '';
+            $temp['work_level_name'] = $highLevelArr[$v['work_level_id']] ?? '';
+            $temp['operate_type_name'] = $operateTypeArr[$v['operate_type']] ?? '';
 
             unset($temp['applyDepartment']);
             unset($temp['companyArea']);
@@ -131,36 +138,8 @@ class WorkService {
 
         $companyArea = ArrayLib::getTreeMulti($companyArea);
 
-        /*
-         * 分级：
-         1、作业高度在2米至5米时，称为一级高处作业。
-         2、作业高度在5米以上至15米时，称为二级高处作业。
-         3、作业高度在15米以上至30米时，称为三级高处作业。
-         4、作业高度在30米以上时，称为特级高处作业。
 
-        类别：
-        在阵风风力为6级（风速10.8米/秒）及以上情况下进行的强风高处作业；
-        在高温或低温环境下进行的异温高处作业；
-        在降雪时进行的雪天高处作业；
-        在降雨时进行的雨天高处作业；
-        在室外完全采用人工照明进行的夜间高处作业；
-        在接近或接触带电体条件下进行的带电高处作业；
-        在无立足点或无牢靠立足点的条件下进行的悬空高处作业。
-        其他
-         */
-
-       /* $highLevelData = [
-            1 => '作业高度在2米至5米时，称为一级高处作业',
-            2 => '作业高度在5米以上至15米时，称为二级高处作业',
-            3 => '作业高度在15米以上至30米时，称为三级高处作业',
-            4 => '作业高度在30米以上时，称为特级高处作业',
-        ];*/
-        $highLevelData = [
-            1 => '一级高处作业',
-            2 => '二级高处作业',
-            3 => '三级高处作业',
-            4 => '特级高处作业',
-        ];
+        $highLevelData = WorkHigh::HIGH_LEVEL_ARR;
         $highLevel = [];
         foreach ($highLevelData as $k => $v) {
             $highLevel[] = [
