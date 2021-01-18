@@ -268,8 +268,8 @@ class User extends ApiBase
             'name' =>  $username,
         ];
 
-        return api_successed(compact('info'));
-
+        return json(result_successed(compact('info')));
+        
     }
 
     public function siteAuthConfig()

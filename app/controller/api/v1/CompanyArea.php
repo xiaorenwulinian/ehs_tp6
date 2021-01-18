@@ -54,7 +54,7 @@ class CompanyArea extends ApiBase
         }
         $list = \app\common\model\enterprise\CompanyArea::getTreeMulti($newData);
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
 
     }
 
@@ -111,7 +111,7 @@ class CompanyArea extends ApiBase
             return api_failed($e->getMessage());
         }
 
-        return api_successed();
+        return json(result_successed());
     }
 
     /**
@@ -161,7 +161,7 @@ class CompanyArea extends ApiBase
             return api_failed($e->getMessage());
         }
 
-        return api_successed();
+        return json(result_successed());
     }
 
     /**
@@ -189,7 +189,7 @@ class CompanyArea extends ApiBase
             return api_failed($e->getMessage());
         }
 
-        return api_successed();
+        return json(result_successed());
 
     }
 
@@ -203,7 +203,7 @@ class CompanyArea extends ApiBase
             ->field(['id', 'name'])
             ->select();
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     /**
@@ -238,7 +238,8 @@ class CompanyArea extends ApiBase
             ];
             array_push($newData, $temp);
         }
-        return api_successed(['data' => $newData]);
+        return json(result_successed(['data' => $newData]));
+
     }
 
 }

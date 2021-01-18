@@ -36,7 +36,7 @@ class SafetyConfig extends ApiBase
             ->find();
 
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     /**
@@ -73,72 +73,6 @@ class SafetyConfig extends ApiBase
 
         return api_successed($ret);
     }
-
-
-    /**
-     * @ApiTitle  (巡更配置)
-     * @ApiMethod   (Post)
-     * @author lwx
-     * @ApiHeaders  (name=token, type=string, required=true, description="请求的Token")
-     * @ApiParams   (name="company_device_monitor_id", type="int", required=true, description="摄像头ID")
-     * @ApiParams   (name="type", type="int", required=true, description="类型：1其他,2监控,3感应")
-     * @ApiParams   (name="name", type="string", required=false, description="配置名称")
-     * @ApiParams   (name="desc", type="string", required=false, description="配置简述")
-     * @ApiParams   (name="static_num", type="number", required=true, description="静止计时时间（静止多少时间后认定是睡觉开始计时，单位秒s)")
-     * @ApiParams   (name="warn_num", type="number", required=true, description="持续静止后报警时间（认定睡觉后多少时间启动报警s)")
-     * @ApiReturn
-     */
-/*    public function save()
-    {
-        $params = $this->request->only([
-            'company_device_monitor_id',
-            'type',
-            'static_num',
-            'warn_num',
-            'name',
-            'desc',
-        ]);
-
-        $id = input('id');//修改配置
-        $company_device_monitor_id = $params['company_device_monitor_id'] ?? 0;//设备id
-        $company_id = $this->auth->company_id;//公司
-
-        $validate = Loader::validate('SafetyConfigValidate');
-        if (!$validate->batch()->check($params)) {
-            return api_failed($validate->getError());
-        }
-
-        try {
-            //验证是不是修改本公司的设备
-            $row = db('company_device_monitor')->where(['company_device_monitor_id'=>$company_device_monitor_id, 'company_id'=>$company_id])->find();
-            if (!$row) {
-                throw new \Exception('抱歉，配置失败，本公司设备数据不存在！');
-            }
-
-
-            //添加
-            if (!$id) {
-                $row = db('safety_config')->where(['company_device_monitor_id'=>$params['company_device_monitor_id']])->find();
-                if ($row) {
-                    throw new \Exception(__('Do not add configuration repeatedly'));
-                }
-                $params['company_id'] = $company_id;
-                $res = db('safety_config')->insert($params);
-            }else{
-
-                //修改
-                $res = db('safety_config')->where(['safety_config_id'=>$id])->update($params);
-            }
-            if (!$res) {
-                throw new \Exception(__('Operation failed'));
-            }
-
-        } catch (\Exception $e) {
-            return api_failed($e->getMessage());
-        }
-
-        return api_successed();
-     }*/
 
      public function add()
      {

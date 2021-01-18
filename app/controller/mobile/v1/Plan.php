@@ -27,7 +27,7 @@ class Plan extends MobileBase
         $data = $this->mockDay();
         $list = array_slice($data, $offset, $pageSize);
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     private function mockDay()

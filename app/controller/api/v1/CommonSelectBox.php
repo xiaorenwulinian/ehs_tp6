@@ -66,7 +66,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'name as name'])
             ->select();
 
-        return api_successed(compact('data'));
+        return json(result_successed(compact('data')));
     }
 
     /**
@@ -81,8 +81,7 @@ class CommonSelectBox extends ApiBase
             ->select();
 
         $list = ArrayLib::getTreeMulti($data);
-
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     /**
@@ -95,7 +94,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'job_name as name'])
             ->select();
 
-        return api_successed(compact('data'));
+        return json(result_successed(compact('data')));
     }
 
     /**
@@ -108,7 +107,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'check_rate_name as name'])
             ->select();
 
-        return api_successed(compact('data'));
+        return json(result_successed(compact('data')));
     }
 
 
@@ -127,16 +126,10 @@ class CommonSelectBox extends ApiBase
             ->field([
                 'id',
                 'username as name',
-//                'nickname',
-//                'pinyin',
-//                'pinyin_short',
             ])
             ->where($where)
             ->select();
-
-
-
-        return api_successed(compact('data'));
+        return json(result_successed(compact('data')));
     }
 
     /**
@@ -149,8 +142,7 @@ class CommonSelectBox extends ApiBase
             ->where('company_id', '=', $this->companyId)
             ->field(['id as id', 'device_name as name'])
             ->select();
-
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     /**
@@ -164,7 +156,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'point_name as name'])
             ->select();
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     /**
@@ -178,7 +170,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'standard_name as name'])
             ->select();
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
 
@@ -200,7 +192,7 @@ class CommonSelectBox extends ApiBase
 
         $list = \app\common\model\enterprise\Department::getTreeMulti($data);
 
-        return api_successed(['list' => $list]);
+        return json(result_successed(compact('list')));
     }
 
 
@@ -218,7 +210,7 @@ class CommonSelectBox extends ApiBase
             ];
         }
 
-        return api_successed(['list' => $list]);
+        return json(result_successed(compact('list')));
     }
 
     /*
@@ -237,7 +229,7 @@ class CommonSelectBox extends ApiBase
             $list[] = $temp;
         }
 
-        return api_successed(['list' => $list]);
+        return json(result_successed(compact('list')));
     }
 
 
@@ -267,7 +259,7 @@ class CommonSelectBox extends ApiBase
 
         ];
 
-        return api_successed(['list' => $list]);
+        return json(result_successed(compact('list')));
     }
 
 
@@ -291,7 +283,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'name as name'])
             ->select();
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
     /*
@@ -459,7 +451,7 @@ class CommonSelectBox extends ApiBase
             ->field(['id as id', 'name as name'])
             ->select();
 
-        return api_successed(compact('list'));
+        return json(result_successed(compact('list')));
     }
 
 
@@ -570,6 +562,6 @@ class CommonSelectBox extends ApiBase
             ];
         }
 
-        return api_successed(['list' => $list]);
+        return json(result_successed(compact('list')));
     }
 }
