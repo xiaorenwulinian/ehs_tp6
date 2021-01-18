@@ -82,27 +82,27 @@ class SafetyRecordWarningModel extends Model
 
     public function company()
     {
-        return $this->belongsTo('company','company_id','id');
+        return $this->belongsTo(CompanyModel::class,'company_id','id');
     }
 
     public function user()
     {
-        return $this->belongsTo('user','user_ids','id');
+        return $this->belongsTo(UserModel::class,'user_ids','id');
     }
 
     public function companyArea()
     {
-        return $this->belongsTo('company','company_area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class,'company_area_id','id');
     }
 
     public function companyDeviceMonitor()
     {
-        return $this->belongsTo('company','company_device_monitor_id','id');
+        return $this->belongsTo(CompanyDeviceMonitorModel::class,'company_device_monitor_id','id');
     }
 
     public function job()
     {
-        return $this->belongsTo('job','job_ids','id');
+        return $this->belongsTo(JobModel::class,'job_ids','id');
     }
 
 }

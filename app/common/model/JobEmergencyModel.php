@@ -29,7 +29,7 @@ class JobEmergencyModel extends Model
     }*/
     public function department()
     {
-        return $this->belongsTo('department','department_id','id');
+        return $this->belongsTo(DepartmentModel::class,'department_id','id');
     }
 
     

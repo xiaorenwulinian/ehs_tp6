@@ -2,6 +2,7 @@
 
 namespace app\common\model\enterprise;
 
+use app\common\model\JobModel;
 use think\Model;
 
 
@@ -25,7 +26,7 @@ class PpeModel extends Model
 
     public function job()
     {
-        return $this->belongsTo('job','job_id','id');
+        return $this->belongsTo(JobModel::class,'job_id','id');
     }
     
 

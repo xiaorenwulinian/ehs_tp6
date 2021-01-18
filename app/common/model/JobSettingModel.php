@@ -31,21 +31,21 @@ class JobSettingModel extends Model
 
     public function companyArea()
     {
-        return $this->belongsTo('companyArea','company_area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class,'company_area_id','id');
     }
     public function job()
     {
-        return $this->belongsTo('job','job_id','id');
+        return $this->belongsTo(JobModel::class,'job_id','id');
     }
     public function rfidDevice()
     {
-        return $this->belongsTo('device_rfid','rfid_id','id');
+        return $this->belongsTo(DeviceRfidModel::class,'rfid_id','id');
     }
 
 
     public function deviceCamera()
     {
-        return $this->belongsTo('device_camera','camera_id','id');
+        return $this->belongsTo(DeviceCameraModel::class,'camera_id','id');
     }
 
 

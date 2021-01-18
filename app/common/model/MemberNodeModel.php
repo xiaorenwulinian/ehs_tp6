@@ -29,13 +29,6 @@ class MemberNodeModel extends Model
 
     protected static function init()
     {
-        self::beforeInsert(function ($row) {
-            if ($row->parent_id == 0) {
-                $row->level = 1;
-            } else {
-                $row->level = 2;
-            }
-        });
     }
 
 

@@ -25,11 +25,11 @@ class EmergencyPlanModel extends Model
 
     public function job()
     {
-        return $this->belongsTo('job','job_id','id');
+        return $this->belongsTo(JobModel::class,'job_id','id');
     }
     public function department()
     {
-        return $this->belongsTo('department','department_id','id');
+        return $this->belongsTo(DepartmentModel::class,'department_id','id');
     }
     
 
