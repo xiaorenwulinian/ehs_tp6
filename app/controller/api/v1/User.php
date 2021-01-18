@@ -2,6 +2,7 @@
 
 namespace app\controller\api\v1;
 
+use app\common\model\CompanyAreaModel;
 use app\controller\api\ApiBase;
 use app\common\constant\JobConstant;
 use app\common\service\JwtService;
@@ -257,7 +258,7 @@ class User extends ApiBase
     public function followPhotoAuditPerson()
     {
         $id = $this->request->param('id');
-        $data = \app\common\model\enterprise\CompanyArea::get($id);
+        $data = CompanyAreaModel::find($id);
 
         $username = Db::name('user')
             ->where('user_id', $data->director_id)

@@ -3,11 +3,11 @@
 namespace app\common\service;
 
 use app\common\library\StringLib;
-use app\common\model\enterprise\CompanyArea;
-use app\common\model\enterprise\Facility;
-use app\common\model\enterprise\Job;
-use app\common\model\enterprise\OcHarmFactorModel;
-use app\common\model\enterprise\OcTestPlanModel;
+use app\common\model\CompanyAreaModel;
+use app\common\model\FacilityModel;
+use app\common\model\JobModel;
+use app\common\model\OcTabooModel;
+use app\common\model\OcTestPlanModel;
 use think\facade\Db;
 
 
@@ -69,7 +69,7 @@ class OccupationalService {
         Db::startTrans();
         try {
 
-            $level =  CompanyArea::where('id',$params['company_area_id'])->value('cur_level');
+            $level =  CompanyAreaModel::where('id',$params['company_area_id'])->value('cur_level');
 
             if ($level != 5) {
                 throw new \Exception('必须选择一级区域');
@@ -95,7 +95,7 @@ class OccupationalService {
                 'facility_no'        => $this->generatorFacilityNo(),
             ];
 
-            $facility = Facility::create($insert);
+            $facility = FacilityModel::create($insert);
 
             $facilityId = $facility->id;
 
@@ -192,12 +192,12 @@ class OccupationalService {
 
         Db::startTrans();
         try {
-            $data = Facility::find($params['id']);
+            $data = FacilityModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
 
-            $level =  CompanyArea::where('id',$params['company_area_id'])->value('cur_level');
+            $level =  CompanyAreaModel::where('id',$params['company_area_id'])->value('cur_level');
 
             if ($level != 5) {
                 throw new \Exception('必须选择一级区域');
@@ -508,7 +508,7 @@ class OccupationalService {
 
     public function delete($id)
     {
-        $data = Facility::get($id);
+        $data = FacilityModel::get($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -525,7 +525,7 @@ class OccupationalService {
 
     public function detail($id)
     {
-        $data = Facility::get($id);
+        $data = FacilityModel::get($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -579,9 +579,9 @@ class OccupationalService {
 
         $where = [];
 
-        $count = OcHarmFactorModel::where($where)->count();
+        $count = OcTabooModel::where($where)->count();
 
-        $data = OcHarmFactorModel::where($where)
+        $data = OcTabooModel::where($where)
             ->limit($offset, $pageSize)
             ->select();
 
@@ -612,8 +612,6 @@ class OccupationalService {
 
 //        $where['is_deleted'] = ['=', 0];
 //        $where['company_id'] = ['=', $params['company_id']];
-
-
 
         $count = OcTestPlanModel::where($where)->count();
 
@@ -687,7 +685,7 @@ class OccupationalService {
 //            if ($has > 0) {
 //                throw new \Exception('体检项目不能为空');
 //            }
-            $params['test_item'] = Job::where('id',$params['job_id'])
+            $params['test_item'] = JobModel::where('id',$params['job_id'])
                 ->value('harm_factor_id');
             OcTestPlanModel::create($params);
 //
@@ -703,7 +701,7 @@ class OccupationalService {
     {
 
         try {
-            $data = OcTestPlanModel::get($params['id']);
+            $data = OcTestPlanModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -717,7 +715,7 @@ class OccupationalService {
             $data->job_id = $params['job_id'];
             $data->before_time           = $params['before_time'];
             $data->next_time       = $params['next_time'];
-            $test_item = Job::where('id',$params['job_id'])
+            $test_item = JobModel::where('id',$params['job_id'])
                 ->value('harm_factor_id');
             $data->test_item       = $test_item;
             $data->is_job       = $params['is_job'];

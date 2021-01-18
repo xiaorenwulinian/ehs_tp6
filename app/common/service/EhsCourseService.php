@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\EhsCourse;
+use app\common\model\EhsCourseModel;
 
 
 /**
@@ -28,9 +28,9 @@ class EhsCourseService {
         if (!empty($params['job_id'])) {
             $where['job_id'] = ['=', $params['job_id']];
         }
-        $count = EhsCourse::where($where)->count();
+        $count = EhsCourseModel::where($where)->count();
 
-        $data = EhsCourse::with([
+        $data = EhsCourseModel::with([
             'job',
         ])
             ->where($where)
@@ -65,7 +65,7 @@ class EhsCourseService {
     {
         try {
 
-            EhsCourse::create($params);
+            EhsCourseModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());

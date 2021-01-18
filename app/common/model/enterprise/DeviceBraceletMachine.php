@@ -8,9 +8,6 @@ use think\Model;
 class DeviceBraceletMachine extends Model
 {
 
-    
-
-    
 
     // 表名
     protected $name = 'device_bracelet_machine';

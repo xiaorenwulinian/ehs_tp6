@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\JobAvoid;
+use app\common\model\JobAvoidModel;
 use app\common\traits\SingletonTrait;
 
 
@@ -31,9 +31,9 @@ class JobAvoidService {
             $where['avoid_name'] = ['like', "%{$params['avoid_name']}%"];
         }
 
-        $count = JobAvoid::where($where)->count();
+        $count = JobAvoidModel::where($where)->count();
 
-        $data = JobAvoid::where($where)
+        $data = JobAvoidModel::where($where)
 //            ->with('job')
 //            ->field('sort,is_deleted',true)
             ->limit($offset, $pageSize)
@@ -66,7 +66,7 @@ class JobAvoidService {
 
         try {
 
-            JobAvoid::create($params);
+            JobAvoidModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -80,7 +80,7 @@ class JobAvoidService {
     {
         try {
 
-            $data = JobAvoid::find($params['id']);
+            $data = JobAvoidModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -101,7 +101,7 @@ class JobAvoidService {
 
     public function delete($id)
     {
-        $data = JobAvoid::find($id);
+        $data = JobAvoidModel::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }

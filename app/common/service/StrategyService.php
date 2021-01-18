@@ -2,10 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\JobAvoid;
 use app\common\model\StrategyGoalModel;
-use app\common\traits\SingletonTrait;
-
 
 /**
  *

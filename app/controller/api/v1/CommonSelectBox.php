@@ -7,7 +7,10 @@ use app\common\constant\CommonConstant;
 use app\common\constant\ObjectConstant;
 use app\common\constant\WorkConstant;
 use app\common\library\ArrayLib;
-use app\common\model\enterprise\DeviceRfid;
+use app\common\model\CompanyAreaModel;
+use app\common\model\DepartmentModel;
+use app\common\model\DeviceRfidModel;
+use app\common\model\JobModel;
 use app\common\service\JwtService;
 use app\controller\api\ApiBase;
 use think\facade\Db;
@@ -61,7 +64,7 @@ class CommonSelectBox extends ApiBase
     public function companyArea()
     {
 
-        $data = \app\common\model\enterprise\CompanyArea::where('is_deleted', '=', 0)
+        $data = CompanyAreaModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $this->companyId)
             ->field(['id as id', 'name as name'])
             ->select();
@@ -75,7 +78,7 @@ class CommonSelectBox extends ApiBase
     public function companyAreaMulti()
     {
 
-        $data = \app\common\model\enterprise\CompanyArea::where('is_deleted', '=', 0)
+        $data = CompanyAreaModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $this->companyId)
             ->field(['id', 'name','parent_id'])
             ->select();
@@ -89,7 +92,7 @@ class CommonSelectBox extends ApiBase
      */
     public function job()
     {
-        $data = \app\common\model\enterprise\Job::where('is_deleted', '=', 0)
+        $data = JobModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $this->companyId)
             ->field(['id as id', 'job_name as name'])
             ->select();
@@ -190,7 +193,7 @@ class CommonSelectBox extends ApiBase
 
         $data = collect($data)->toArray();
 
-        $list = \app\common\model\enterprise\Department::getTreeMulti($data);
+        $list = DepartmentModel::getTreeMulti($data);
 
         return json(result_successed(compact('list')));
     }
@@ -266,7 +269,7 @@ class CommonSelectBox extends ApiBase
 
     public function rfidDevice()
     {
-        $data = DeviceRfid::SCENE_ARR;
+        $data = DeviceRfidModel::SCENE_ARR;
         $scene = request()->param('scene');
 
         $where = [];

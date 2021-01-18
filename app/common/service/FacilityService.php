@@ -4,8 +4,8 @@ namespace app\common\service;
 
 use app\common\constant\CommonConstant;
 use app\common\library\StringLib;
-use app\common\model\enterprise\CompanyArea;
-use app\common\model\enterprise\Facility;
+use app\common\model\CompanyAreaModel;
+use app\common\model\FacilityModel;
 use app\common\traits\SingletonTrait;
 use think\facade\Db;
 
@@ -35,9 +35,9 @@ class FacilityService {
             $where['name'] = ['like', "%{$params['name']}%"];
         }
 
-        $count = Facility::where($where)->count();
+        $count = FacilityModel::where($where)->count();
 
-        $data = Facility::with([
+        $data = FacilityModel::with([
             'companyArea',
             'leaderJob',
         ])->where($where)
@@ -74,10 +74,10 @@ class FacilityService {
                 $tempIdArr = [];
                 $checkTimeIdArr = explode(',', $v['check_time_ids']);
                 foreach ($checkTimeIdArr as $cti) {
-                    if (!array_key_exists($cti, Facility::CHECK_TIME_ARR)) {
+                    if (!array_key_exists($cti, FacilityModel::CHECK_TIME_ARR)) {
                         continue;
                     }
-                    $tempIdArr[] = Facility::CHECK_TIME_ARR[$cti];
+                    $tempIdArr[] = FacilityModel::CHECK_TIME_ARR[$cti];
                 }
                 $temp['check_time_ids_str'] = implode(',',$tempIdArr);
             } else {
@@ -116,7 +116,7 @@ class FacilityService {
         Db::startTrans();
         try {
 
-           $level =  CompanyArea::where('id',$params['company_area_id'])->value('cur_level');
+           $level =  CompanyAreaModel::where('id',$params['company_area_id'])->value('cur_level');
 
            if ($level != 5) {
                throw new \Exception('必须选择一级区域');
@@ -142,7 +142,7 @@ class FacilityService {
                'facility_no'        => $this->generatorFacilityNo(),
            ];
 
-           $facility = Facility::create($insert);
+           $facility = FacilityModel::create($insert);
 
            $facilityId = $facility->id;
 
@@ -241,7 +241,7 @@ class FacilityService {
 
         Db::startTrans();
         try {
-            $data = Facility::get($params['id']);
+            $data = FacilityModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -574,7 +574,7 @@ class FacilityService {
 
     public function delete($id)
     {
-        $data = Facility::find($id);
+        $data = FacilityModel::find($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -591,7 +591,7 @@ class FacilityService {
 
     public function detail($id)
     {
-        $data = Facility::find($id);
+        $data = FacilityModel::find($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
