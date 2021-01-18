@@ -18,9 +18,14 @@ class Strategy extends ApiBase
     protected $noNeedLogin = ['*'];
     protected $noNeedRight = ['*'];
 
-    public function policyShow(Request $request)
+    /**
+     * 方针显示
+     * @param Request $request
+     * @return \think\response\Json
+     */
+    public function policyShow()
     {
-        $type = $request->param('type',0);
+        $type = $this->request->param('type',0);
         $policy = [
             1 => '环境方针',
             2 => '职业健康安全方针',
@@ -40,25 +45,32 @@ class Strategy extends ApiBase
 
     }
 
+    /**
+     * 方针保存
+     * @param Request $request
+     * @return \think\response\Json
+     */
     public function policySave(Request $request)
     {
-        $type = $request->param('type',0);
-        $policy = [
-            1 => '环境方针',
-            2 => '职业健康安全方针',
-            3 => '能源方针',
-        ];
-        if (!array_key_exists($type, $policy)) {
-            return json(result_failed("类型传参错误"));
-        }
+        $id = $this->request->param('id',0);
+        $content = $this->request->param('content','');
 
         $companyId = JwtService::getInstance()->getCompanyId();
         $info =  Db::table('strategy_policy')
-            ->where('type', $type)
+            ->where('id', $id)
             ->where('company_id', $companyId)
             ->find();
+        if (!$info) {
+            return json(result_failed("未发现该对象"));
+        }
 
-        return json(result_successed(compact('info')));
+        Db::table('strategy_policy')
+            ->where('id', $id)
+            ->update([
+                'content' => $content
+            ]);
+
+        return json(result_successed());
 
     }
 

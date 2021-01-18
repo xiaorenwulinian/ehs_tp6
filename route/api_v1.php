@@ -296,7 +296,8 @@ Route::group('/api/v1', function(){
     });
 
     Route::group('strategy', function () {
-        Route::any('policy', 'api.v1.Strategy/policy');
+        Route::any('policy/show', 'api.v1.Strategy/policyShow');
+        Route::any('policy/save', 'api.v1.Strategy/policySave');
     });
 
 
