@@ -968,10 +968,11 @@ class JobService {
     {
         $job_id = $params['job_id'];
         $company_id = $params['company_id'];
-        $linK_ids = $params['link_ids'];
-        $linK_id_arr = explode(',', $linK_ids);
 
-        foreach ($linK_id_arr as $link_id) {
+        $link_id_arr = explode(',', $params['link_ids']);
+
+
+        foreach ($link_id_arr as $link_id) {
             if (empty($link_id)) {
                 continue;
             }
@@ -1012,10 +1013,10 @@ class JobService {
     {
         $job_id = $params['job_id'];
         $company_id = $params['company_id'];
-        $linK_ids = $params['link_ids'];
-        $linK_id_arr = explode(',', $linK_ids);
 
-        foreach ($linK_id_arr as $link_id) {
+        $link_id_arr = explode(',', $params['link_ids']);
+
+        foreach ($link_id_arr as $link_id) {
             if (empty($link_id)) {
                 continue;
             }
