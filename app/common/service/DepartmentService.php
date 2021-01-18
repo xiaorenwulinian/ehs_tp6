@@ -2,8 +2,8 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\Department;
-
+use app\common\model\CompanyAreaModel;
+use app\common\model\DepartmentModel;
 
 /**
  *
@@ -28,9 +28,9 @@ class DepartmentService {
             $where['department_name'] = ['like', "%{$params['department_name']}%"];
         }
 
-        $count = Department::where($where)->count();
+        $count = DepartmentModel::where($where)->count();
 
-        $data = Department::with([
+        $data = DepartmentModel::with([
             'dutyUser'
         ])
             ->where($where)
@@ -42,14 +42,14 @@ class DepartmentService {
         $newData= [];
         foreach ($data as $v) {
             $temp = $v;
-            $temp['duty_user_name']  = $v['duty_user']['username'] ?? '';
+            $temp['duty_user_name']  = $v['dutyUser']['username'] ?? '';
 
             unset($temp['duty_user']);
             unset($temp['is_deleted']);
             unset($temp['parent_associate']);
             array_push($newData, $temp);
         }
-        $list = \app\common\model\enterprise\CompanyArea::getTreeMulti($newData);
+        $list = CompanyAreaModel::getTreeMulti($newData);
 
         $ret = [
             'count' => $count,
@@ -63,7 +63,7 @@ class DepartmentService {
     public function add($params)
     {
         try {
-            $count = Department::where([
+            $count = DepartmentModel::where([
                     'company_id'      => $params['company_id'],
                     'department_name' => $params['department_name'],
                 ])
@@ -79,14 +79,14 @@ class DepartmentService {
                 $parent_associate = 0;
 
             } else {
-                $dept = Department::get($params['parent_id']);
+                $dept = DepartmentModel::find($params['parent_id']);
                 $parent_associate = $dept['parent_associate'];
                 $params['cur_level'] = $dept['cur_level'] + 1;
             }
 
             $params['parent_associate'] = $parent_associate;
 
-            $data = Department::create($params);
+            $data = DepartmentModel::create($params);
 
             $data->parent_associate = $parent_associate . ',' . $data->id;
             $data->save();
@@ -103,7 +103,7 @@ class DepartmentService {
     {
         try {
 
-            $department = Department::get($params['id']);
+            $department = DepartmentModel::find($params['id']);
             if (!$department) {
                 throw new \Exception("未发现该部门");
             }
@@ -113,7 +113,7 @@ class DepartmentService {
             }
 
             if ($department->department_name != $params['department_name']) {
-                $count = Department::where([
+                $count = DepartmentModel::where([
                         'company_id'      => $params['company_id'],
                         'department_name' => $params['department_name'],
                     ])
@@ -142,7 +142,7 @@ class DepartmentService {
 
     public function delete($id)
     {
-        $data = Department::find($id);
+        $data = DepartmentModel::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }

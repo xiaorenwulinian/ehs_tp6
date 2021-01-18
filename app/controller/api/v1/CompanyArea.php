@@ -3,6 +3,7 @@
 
 namespace app\controller\api\v1;
 
+use app\common\model\CompanyAreaModel;
 use app\common\service\JwtService;
 use app\common\validate\CompanyAreaValidate;
 use app\controller\api\ApiBase;
@@ -38,7 +39,7 @@ class CompanyArea extends ApiBase
         $where['is_deleted'] = ['=', 0];
         $where['company_id'] = ['=', $companyId];
 
-        $data = \app\common\model\enterprise\CompanyArea::with(['director'])
+        $data = CompanyAreaModel::with(['director'])
             ->where($where)
             ->order('parent_id', 'asc')
             ->select();
@@ -52,7 +53,7 @@ class CompanyArea extends ApiBase
             unset($temp['is_deleted']);
             array_push($newData, $temp);
         }
-        $list = \app\common\model\enterprise\CompanyArea::getTreeMulti($newData);
+        $list = CompanyAreaModel::getTreeMulti($newData);
 
         return json(result_successed(compact('list')));
 
@@ -81,7 +82,7 @@ class CompanyArea extends ApiBase
 
         try {
 
-            $has = \app\common\model\enterprise\CompanyArea::where([
+            $has = CompanyAreaModel::where([
                 'parent_id'  => $parentId,
                 'company_id' => $companyId,
             ])->count();
@@ -93,7 +94,7 @@ class CompanyArea extends ApiBase
             if ($parentId  == 0) {
                 $level = 1;
             } else {
-                $parent = \app\common\model\enterprise\CompanyArea::find($parentId);
+                $parent = CompanyAreaModel::find($parentId);
                 $level = $parent->cur_level;
                 $level++;
             }
@@ -105,7 +106,7 @@ class CompanyArea extends ApiBase
 
             $params['cur_level'] = $level;
 
-            $data = \app\common\model\enterprise\CompanyArea::create($params);
+            $data = CompanyAreaModel::create($params);
 
         } catch (\Exception $e) {
             return api_failed($e->getMessage());
@@ -138,20 +139,18 @@ class CompanyArea extends ApiBase
 
         try {
 
-            $data = \app\common\model\enterprise\CompanyArea::get($params['id']);
+            $data = CompanyAreaModel::find($params['id']);
 
             $data->name = $params['name'] ?? '';
 
             if ($data['parent_id'] != $params['parent_id']) {
-                $parent = \app\common\model\enterprise\CompanyArea::get($params['parent_id']);
-//                if (in_array($params['parent_id'],$parent)){
-//                    $this->error('父级不能是它的子组别或它本身');
-//                }
+                $parent = CompanyAreaModel::find($params['parent_id']);
+
                 $level = $parent->cur_level;
                 if ($level>5){
                     throw  new \Exception('级别不能超过5');
                 }
-                $chileLevel = \app\common\model\enterprise\CompanyArea::getChildrenMaxLevel();
+                $chileLevel = CompanyAreaModel::getChildrenMaxLevel();
 
             }
 
@@ -178,7 +177,7 @@ class CompanyArea extends ApiBase
 
         $id = input('id/d', 0);
 
-        $data = \app\common\model\enterprise\CompanyArea::get($id);
+        $data = CompanyAreaModel::find($id);
         if (!$data) {
             return api_failed("数据不存在");
         }
@@ -198,7 +197,7 @@ class CompanyArea extends ApiBase
 
         $companyId = JwtService::getInstance()->getCompanyId();
 
-        $list = \app\common\model\enterprise\CompanyArea::where('is_deleted','=',0)
+        $list = CompanyAreaModel::where('is_deleted','=',0)
             ->where('company_id','=',$companyId)
             ->field(['id', 'name'])
             ->select();
@@ -217,13 +216,13 @@ class CompanyArea extends ApiBase
     {
         $companyId = JwtService::getInstance()->getCompanyId();
 
-        $data = \app\common\model\enterprise\CompanyArea::where('is_deleted','=',0)
+        $data = CompanyAreaModel::where('is_deleted','=',0)
             ->where('company_id','=',$companyId)
 //            ->field(['company_area_id', 'area_name'])
             ->select();
         $data = collect($data)->toArray();
 
-        $list = \app\common\model\enterprise\CompanyArea::getTree($data);
+        $list = CompanyAreaModel::getTree($data);
         $newData = [];
         array_push($newData,[
             'parent_id' => 0,

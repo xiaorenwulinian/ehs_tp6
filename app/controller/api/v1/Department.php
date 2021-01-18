@@ -3,12 +3,12 @@
 
 namespace app\controller\api\v1;
 
+use app\common\model\DepartmentModel;
 use app\common\model\UserModel;
 use app\controller\api\ApiBase;
 use app\common\service\DepartmentService;
 use app\common\service\JwtService;
 use app\common\validate\DepartmentValidate;
-use app\common\model\enterprise\Department AS DepartmentModel;
 
 /**
  * 部门

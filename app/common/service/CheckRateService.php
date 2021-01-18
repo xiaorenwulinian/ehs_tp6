@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\CheckRate;
+use app\common\model\CheckRateModel;
 
 /**
  *
@@ -26,9 +26,9 @@ class CheckRateService {
             $where['check_rate_name'] = ['like', "%{$params['check_rate_name']}%"];
         }
 
-        $count = CheckRate::where($where)->count();
+        $count = CheckRateModel::where($where)->count();
 
-        $data = CheckRate::where($where)
+        $data = CheckRateModel::where($where)
             ->limit($offset, $pageSize)
             ->order('id','desc')
             ->select();
@@ -46,7 +46,7 @@ class CheckRateService {
     {
         try {
 
-            CheckRate::create($params);
+            CheckRateModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -60,7 +60,7 @@ class CheckRateService {
     {
         try {
 
-            $data = CheckRate::find($params['id']);
+            $data = CheckRateModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -81,7 +81,7 @@ class CheckRateService {
 
     public function delete($id)
     {
-        $data = CheckRate::find($id);
+        $data = CheckRateModel::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }

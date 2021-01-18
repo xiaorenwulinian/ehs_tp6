@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\CompanyDeviceMonitor;
+use app\common\model\CompanyDeviceMonitorModel;
 
 
 /**
@@ -27,9 +27,9 @@ class CompanyDeviceMonitorService {
             $where['device_name'] = ['like', "%{$params['device_name']}%"];
         }
 
-        $count = CompanyDeviceMonitor::where($where)->count();
+        $count = CompanyDeviceMonitorModel::where($where)->count();
 
-        $data = CompanyDeviceMonitor::where($where)
+        $data = CompanyDeviceMonitorModel::where($where)
             ->limit($offset, $pageSize)
             ->select();
 

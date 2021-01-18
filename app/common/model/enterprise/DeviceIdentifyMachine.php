@@ -8,10 +8,6 @@ use think\Model;
 class DeviceIdentifyMachine extends Model
 {
 
-    
-
-    
-
     // 表名
     protected $name = 'device_identify_machine';
     

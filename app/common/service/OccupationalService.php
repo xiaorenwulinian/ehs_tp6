@@ -3,11 +3,9 @@
 namespace app\common\service;
 
 use app\common\library\StringLib;
-use app\common\model\enterprise\CompanyArea;
+use app\common\model\CompanyAreaModel;
 use app\common\model\enterprise\Facility;
 use app\common\model\enterprise\Job;
-use app\common\model\enterprise\OcHarmFactorModel;
-use app\common\model\enterprise\OcTestPlanModel;
 use think\facade\Db;
 
 
@@ -69,7 +67,7 @@ class OccupationalService {
         Db::startTrans();
         try {
 
-            $level =  CompanyArea::where('id',$params['company_area_id'])->value('cur_level');
+            $level =  CompanyAreaModel::where('id',$params['company_area_id'])->value('cur_level');
 
             if ($level != 5) {
                 throw new \Exception('必须选择一级区域');
@@ -197,7 +195,7 @@ class OccupationalService {
                 throw new \Exception("未发现该数据");
             }
 
-            $level =  CompanyArea::where('id',$params['company_area_id'])->value('cur_level');
+            $level =  CompanyAreaModel::where('id',$params['company_area_id'])->value('cur_level');
 
             if ($level != 5) {
                 throw new \Exception('必须选择一级区域');

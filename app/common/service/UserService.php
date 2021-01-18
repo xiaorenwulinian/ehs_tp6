@@ -3,8 +3,7 @@
 namespace app\common\service;
 
 use app\common\constant\UploadConstant;
-use app\common\model\enterprise\Company;
-use app\common\model\enterprise\UserFollowPhotoModel;
+use app\common\model\CompanyModel;
 use app\common\model\UserModel;
 use Overtrue\Pinyin\Pinyin;
 use think\facade\Db;
@@ -78,7 +77,7 @@ class UserService
     public function mobileLogin(array $params)
     {
 
-        $company = Company::where('title', $params['company_name'])->find();
+        $company = CompanyModel::where('title', $params['company_name'])->find();
 
         if (!$company) {
             return api_failed('该企业不存在');
@@ -119,7 +118,7 @@ class UserService
     public function login(array $params)
     {
 
-        $company = Company::where('title', $params['company_name'])->find();
+        $company = CompanyModel::where('title', $params['company_name'])->find();
 
 
         if (!$company) {

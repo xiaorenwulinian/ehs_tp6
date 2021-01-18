@@ -7,6 +7,8 @@ use app\common\constant\CommonConstant;
 use app\common\constant\ObjectConstant;
 use app\common\constant\WorkConstant;
 use app\common\library\ArrayLib;
+use app\common\model\CompanyAreaModel;
+use app\common\model\DepartmentModel;
 use app\common\model\enterprise\DeviceRfid;
 use app\common\service\JwtService;
 use app\controller\api\ApiBase;
@@ -61,7 +63,7 @@ class CommonSelectBox extends ApiBase
     public function companyArea()
     {
 
-        $data = \app\common\model\enterprise\CompanyArea::where('is_deleted', '=', 0)
+        $data = CompanyAreaModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $this->companyId)
             ->field(['id as id', 'name as name'])
             ->select();
@@ -75,7 +77,7 @@ class CommonSelectBox extends ApiBase
     public function companyAreaMulti()
     {
 
-        $data = \app\common\model\enterprise\CompanyArea::where('is_deleted', '=', 0)
+        $data = CompanyAreaModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $this->companyId)
             ->field(['id', 'name','parent_id'])
             ->select();
@@ -190,7 +192,7 @@ class CommonSelectBox extends ApiBase
 
         $data = collect($data)->toArray();
 
-        $list = \app\common\model\enterprise\Department::getTreeMulti($data);
+        $list = DepartmentModel::getTreeMulti($data);
 
         return json(result_successed(compact('list')));
     }

@@ -4,6 +4,7 @@ namespace app\common\service;
 
 use app\common\constant\WorkConstant;
 use app\common\library\ArrayLib;
+use app\common\model\CompanyAreaModel;
 use app\common\model\enterprise\WorkHigh;
 use think\facade\Db;
 
@@ -131,7 +132,7 @@ class WorkService {
             ])
             ->select();
 
-        $companyArea = \app\common\model\enterprise\CompanyArea::where('is_deleted', '=', 0)
+        $companyArea = CompanyAreaModel::where('is_deleted', '=', 0)
             ->where('company_id', '=', $companyId)
             ->field(['id', 'name','parent_id'])
             ->select();
