@@ -295,6 +295,11 @@ Route::group('/api/v1', function(){
         Route::any('userSelect', 'api.v1.Work/userSelect');
     });
 
+    Route::group('strategy', function () {
+        Route::any('policy', 'api.v1.Strategy/policy');
+    });
+
+
     // 需要 token 身份验证验证
    /* Route::group('', function () {
         // 用户
