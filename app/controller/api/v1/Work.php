@@ -42,7 +42,8 @@ class Work extends ApiBase
         $companyId = JwtService::getInstance()->getCompanyId();
         $params['company_id'] = $companyId;
         $params['table_name'] = 'work_high';
-        $ret = (new WorkService())->workCommonIndex($params);
+//        $ret = (new WorkService())->workCommonIndex($params);
+        $ret = (new WorkService())->workHighIndex($params);
         return json($ret);
     }
     /*
@@ -60,7 +61,7 @@ class Work extends ApiBase
         return json($ret);
     }
 
-    public function highEdit()
+    /*public function highEdit()
     {
         $params = $this->request->param();
         api_validate(WorkHighValidate::class, 'edit', $params);
@@ -69,7 +70,7 @@ class Work extends ApiBase
         $params['work_link_type'] = WorkConstant::WORK_HIGH;
         $ret = (new WorkService())->workCommonEdit($params);
         return json($ret);
-    }
+    }*/
 
     public function fireIndex()
     {

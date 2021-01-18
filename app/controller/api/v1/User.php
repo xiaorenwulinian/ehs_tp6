@@ -269,7 +269,7 @@ class User extends ApiBase
         ];
 
         return json(result_successed(compact('info')));
-        
+
     }
 
     public function siteAuthConfig()

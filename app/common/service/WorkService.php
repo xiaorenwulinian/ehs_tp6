@@ -15,6 +15,62 @@ use think\facade\Db;
  */
 class WorkService {
 
+
+    public function workHighIndex($params)
+    {
+        $page      = !empty($params['page']) ? $params['page'] : 1;
+        $pageSize  = !empty($params['page_size']) ? $params['page_size'] : 10;
+        $offset    = ($page - 1) * $pageSize;
+
+        $where = [];
+
+//        $where['is_deleted'] = ['=', 0];
+        $where['company_id'] = ['=', $params['company_id']];
+
+
+
+        $tableName = $params['table_name'];
+        $count = Db::name($tableName)->where($where)->count();
+
+        $data = WorkHigh::with([
+                'applyDepartment',
+                'companyArea',
+            ])
+            ->where($where)
+            ->limit($offset, $pageSize)
+            ->order('id','desc')
+            ->select()
+            ->toArray();
+        /*$data = Db::name('work_high')
+            ->where($where)
+            ->limit($offset, $pageSize)
+            ->order('id','desc')
+            ->select();
+
+        */
+        $highTypeArr = WorkHigh::HIGH_TYPE_ARR;
+        $newData = [];
+        foreach ($data as $v) {
+            $temp = $v;
+            $temp['department_name'] = $v['applyDepartment']['department_name'] ?? '';
+            $temp['company_area_name'] = $v['companyArea']['name'] ?? '';
+            $temp['work_type_name'] = $highTypeArr[$v['work_type_id']] ?? '';
+
+            unset($temp['applyDepartment']);
+            unset($temp['companyArea']);
+            unset($temp['apply_department_id']);
+            unset($temp['company_area_id']);
+            array_push($newData, $temp);
+        }
+
+        $ret = [
+            'count' => $count,
+            'list'  => $newData,
+        ];
+
+        return result_successed($ret);
+    }
+
     public function workCommonIndex($params)
     {
         $page      = !empty($params['page']) ? $params['page'] : 1;
@@ -113,21 +169,8 @@ class WorkService {
             ];
         }
 
-        /*$work_typeData = [
-            1 => '在阵风风力为6级（风速10.8米/秒）及以上情况下进行的强风高处作业',
-            2 => '在高温或低温环境下进行的异温高处作业',
-            3 => '在降雪时进行的雪天高处作业',
-            4 => '在降雨时进行的雨天高处作业',
-            5 => '在室外完全采用人工照明进行的夜间高处作业',
-            6 => '在接近或接触带电体条件下进行的带电高处作业',
-            7 => '在无立足点或无牢靠立足点的条件下进行的悬空高处作业',
-            8 => '其他',
-        ];*/
-        $work_high_typeData = [
-            1 => '一般高处作业',
-            2 => '特殊高处作业',
 
-        ];
+        $work_high_typeData = WorkHigh::HIGH_TYPE_ARR;
         $work_high_type = [];
         foreach ($work_high_typeData as $k => $v) {
             $work_high_type[] = [
@@ -484,7 +527,7 @@ class WorkService {
     }
 
 
-    public function workCommonEdit($params)
+/*    public function workCommonEdit($params)
     {
         try {
             $specialUpdate = [];
@@ -591,7 +634,7 @@ class WorkService {
 
         return result_successed();
 
-    }
+    }*/
 
 
     public function highAdd($params)
@@ -660,7 +703,7 @@ class WorkService {
         return result_successed();
     }
 
-    public function highEdit($params)
+   /* public function highEdit($params)
     {
         try {
 
@@ -720,7 +763,7 @@ class WorkService {
 
         return result_successed();
 
-    }
+    }*/
 
     public function userSelect($params)
     {

@@ -406,7 +406,7 @@ class Job extends ApiBase
     public function bindCourseAdd()
     {
         $params = $this->request->param();
-        if (empty($params['job_id']) || empty($params['linK_ids'])) {
+        if (empty($params['job_id']) || empty($params['link_ids'])) {
             return json(result_failed("参数必传"));
         }
         $params['company_id'] = JwtService::getInstance()->getCompanyId();
@@ -434,7 +434,7 @@ class Job extends ApiBase
     public function bindEmergencyAdd()
     {
         $params = $this->request->param();
-        if (empty($params['job_id']) || empty($params['linK_ids'])) {
+        if (empty($params['job_id']) || empty($params['link_ids'])) {
             return json(result_failed("参数必传"));
         }
         $params['company_id'] = JwtService::getInstance()->getCompanyId();
