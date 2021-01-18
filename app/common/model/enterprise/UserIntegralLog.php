@@ -7,9 +7,6 @@ use think\Model;
 
 class UserIntegralLog extends Model
 {
-
-    
-
     
 
     // 表名

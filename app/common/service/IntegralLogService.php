@@ -3,7 +3,7 @@
 namespace app\common\service;
 
 use app\common\constant\IntegralConstant;
-use app\common\model\enterprise\User;
+use app\common\model\UserModel;
 use think\facade\Db;
 use think\facade\Log;
 
@@ -27,7 +27,7 @@ class IntegralLogService
         Db::startTrans();
 
         try {
-            $user = User::get($userId);
+            $user = UserModel::find($userId);
             $beforeIntegral = $user->score;
 
             if (in_array($type, IntegralConstant::REWARD_ALL)) {

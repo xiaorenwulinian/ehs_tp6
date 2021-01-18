@@ -5,6 +5,7 @@ namespace app\controller\api\v1;
 
 
 use app\common\service\JwtService;
+use app\common\service\StrategyService;
 use app\controller\api\ApiBase;
 use think\facade\Db;
 use think\Request;
@@ -27,9 +28,9 @@ class Strategy extends ApiBase
     {
         $type = $this->request->param('type',0);
         $policy = [
-            1 => '环境方针',
-            2 => '职业健康安全方针',
-            3 => '能源方针',
+            1 => '环境',
+            2 => '职业健康安全',
+            3 => '能源',
         ];
         if (!array_key_exists($type, $policy)) {
             return json(result_failed("类型传参错误"));
@@ -73,6 +74,61 @@ class Strategy extends ApiBase
         return json(result_successed());
 
     }
+
+    /*
+     * 战略目标 列表
+     */
+    public function goalIndex()
+    {
+        $params = $this->request->param();
+
+        $ret = (new StrategyService())->goalIndex($params);
+
+        return json($ret);
+    }
+
+    /*
+     * 战略目标 添加
+     */
+    public function goalAdd()
+    {
+        $params = $this->request->param();
+
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+
+        $ret = (new StrategyService())->goalAdd($params);
+
+        return json($ret);
+    }
+
+    /*
+   * 战略目标 编辑
+   */
+    public function goalEdit()
+    {
+        $params = $this->request->param();
+
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
+
+        $ret = (new StrategyService())->goalEdit($params);
+
+        return json($ret);
+    }
+
+    /*
+     *
+    * 战略目标 删除
+   */
+    public function goalDelete()
+    {
+        $params = $this->request->param();
+
+        $ret = (new StrategyService())->goalDelete($params);
+
+        return json($ret);
+    }
+
+
 
 
 }

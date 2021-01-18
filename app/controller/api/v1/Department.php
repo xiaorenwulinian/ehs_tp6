@@ -3,6 +3,7 @@
 
 namespace app\controller\api\v1;
 
+use app\common\model\UserModel;
 use app\controller\api\ApiBase;
 use app\common\service\DepartmentService;
 use app\common\service\JwtService;
@@ -181,7 +182,7 @@ class Department extends ApiBase
             ->field(['id', 'job_name as name'])
             ->select();
 
-        $user = \app\common\model\enterprise\User::where('is_deleted','=',0)
+        $user = UserModel::where('is_deleted','=',0)
             ->where('department_id','=', $departmentId)
             ->field(['id', 'username as name'])
             ->select();

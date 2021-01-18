@@ -4,9 +4,8 @@ namespace app\common\service;
 
 use app\common\constant\UploadConstant;
 use app\common\model\enterprise\Company;
-
-use app\common\model\enterprise\User;
 use app\common\model\enterprise\UserFollowPhoto;
+use app\common\model\UserModel;
 use Overtrue\Pinyin\Pinyin;
 use think\facade\Db;
 use think\Exception;
@@ -85,7 +84,7 @@ class UserService
             return api_failed('该企业不存在');
         }
 
-        $user = User::where('username', $params['username'])
+        $user = UserModel::where('username', $params['username'])
             ->where('company_id', $company['id'])
             ->find();
 
@@ -127,7 +126,7 @@ class UserService
             return api_failed('该企业不存在');
         }
 
-        $user = \app\common\model\enterprise\User::where('username', $params['username'])
+        $user = UserModel::where('username', $params['username'])
             ->where('company_id', $company['id'])
             ->find();
 
@@ -174,9 +173,9 @@ class UserService
             $where['username'] = ['like', "%{$params['username']}%"];
         }
 
-        $count = User::where($where)->count();
+        $count = UserModel::where($where)->count();
 
-        $data = User::where($where)
+        $data = UserModel::where($where)
             ->limit($offset, $pageSize)
 //            ->order('job_id','desc')
             ->select();
@@ -260,7 +259,7 @@ class UserService
                 'config_data' => $config_data,
                 'sex' => $sex,
             ];
-            User::create($insert);
+            UserModel::create($insert);
 
             Db::commit();
 
@@ -284,7 +283,7 @@ class UserService
         Db::startTrans();
         try {
 
-            $data = User::find($params['id']);
+            $data = UserModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -376,7 +375,7 @@ class UserService
     public function signEveryDay($userId)
     {
         try {
-            $user = User::get($userId);
+            $user = UserModel::find($userId);
             if (!$user) {
                 throw new \Exception('未发现该数据');
             }
@@ -475,7 +474,7 @@ class UserService
 
     public function followPhotoDetail($id)
     {
-        $data = UserFollowPhoto::get($id);
+        $data = UserFollowPhoto::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }
@@ -553,7 +552,7 @@ class UserService
         Db::startTrans();
         try {
 
-            $data = UserFollowPhoto::get($params['id']);
+            $data = UserFollowPhoto::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }

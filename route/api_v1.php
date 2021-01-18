@@ -298,6 +298,10 @@ Route::group('/api/v1', function(){
     Route::group('strategy', function () {
         Route::any('policy/show', 'api.v1.Strategy/policyShow');
         Route::any('policy/save', 'api.v1.Strategy/policySave');
+        Route::any('goal/index', 'api.v1.Strategy/goalIndex');
+        Route::any('goal/add', 'api.v1.Strategy/goalAdd');
+        Route::any('goal/edit', 'api.v1.Strategy/goalEdit');
+        Route::any('goal/delete', 'api.v1.Strategy/goalDelete');
     });
 
 

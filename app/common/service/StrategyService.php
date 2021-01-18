@@ -3,20 +3,19 @@
 namespace app\common\service;
 
 use app\common\model\enterprise\JobAvoid;
+use app\common\model\StrategyGoalModel;
 use app\common\traits\SingletonTrait;
 
 
 /**
  *
- * Class JobAvoidService
+ * Class StrategyService
  * @package app\common\service
  */
-class JobAvoidService {
-
-    use SingletonTrait;
+class StrategyService {
 
 
-    public function index($params)
+    public function goalIndex($params)
     {
         $page      = !empty($params['page']) ? $params['page'] : 1;
         $pageSize  = !empty($params['page_size']) ? $params['page_size'] : 10;
@@ -24,16 +23,17 @@ class JobAvoidService {
 
         $where = [];
 
-        $where['is_deleted'] = ['=', 0];
+//        $where['is_deleted'] = ['=', 0];
         $where['company_id'] = ['=', $params['company_id']];
+        $where['type'] = ['=', $params['type']];
 
-        if (!empty($params['avoid_name'])) {
+     /*   if (!empty($params['avoid_name'])) {
             $where['avoid_name'] = ['like', "%{$params['avoid_name']}%"];
-        }
+        }*/
 
-        $count = JobAvoid::where($where)->count();
+        $count = StrategyGoalModel::where($where)->count();
 
-        $data = JobAvoid::where($where)
+        $data = StrategyGoalModel::where($where)
 //            ->with('job')
 //            ->field('sort,is_deleted',true)
             ->limit($offset, $pageSize)
@@ -46,9 +46,8 @@ class JobAvoidService {
             $temp = $v;
 //            $temp['job_name'] = $v['job']['job_name'] ?? '';
 
-            unset($temp['sort']);
-            unset($temp['is_deleted']);
-            unset($temp['job']);
+//            unset($temp['is_deleted']);
+//            unset($temp['job']);
             array_push($newData, $temp);
         }
 
@@ -61,12 +60,12 @@ class JobAvoidService {
 
     }
 
-    public function add($params)
+    public function goalAdd($params)
     {
 
         try {
 
-            JobAvoid::create($params);
+            StrategyGoalModel::create($params);
 
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -76,11 +75,11 @@ class JobAvoidService {
 
     }
 
-    public function edit($params)
+    public function goalEdit($params)
     {
         try {
 
-            $data = JobAvoid::find($params['id']);
+            $data = StrategyGoalModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }
@@ -99,15 +98,15 @@ class JobAvoidService {
 
     }
 
-    public function delete($id)
+    public function goalDelete($id)
     {
-        $data = JobAvoid::find($id);
+        $data = StrategyGoalModel::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }
         try {
-            $data->is_deleted = 1;
-            $data->save();
+            StrategyGoalModel::where('id', $id)
+                ->delete();
         } catch (\Exception $e) {
             return  result_failed($e->getMessage());
         }
