@@ -6,8 +6,8 @@ use app\common\library\StringLib;
 use app\common\model\enterprise\CompanyArea;
 use app\common\model\enterprise\Facility;
 use app\common\model\enterprise\Job;
-use app\common\model\enterprise\OcHarmFactor;
-use app\common\model\enterprise\OcTestPlan;
+use app\common\model\enterprise\OcHarmFactorModel;
+use app\common\model\enterprise\OcTestPlanModel;
 use think\facade\Db;
 
 
@@ -34,9 +34,9 @@ class OccupationalService {
             $where['name'] = ['like', "%{$params['name']}%"];
         }
 
-        $count = OcHarmFactor::where($where)->count();
+        $count = OcHarmFactorModel::where($where)->count();
 
-        $data = OcHarmFactor::where($where)
+        $data = OcHarmFactorModel::where($where)
             ->limit($offset, $pageSize)
 //            ->order('id','desc')
             ->select();
@@ -579,9 +579,9 @@ class OccupationalService {
 
         $where = [];
 
-        $count = OcHarmFactor::where($where)->count();
+        $count = OcHarmFactorModel::where($where)->count();
 
-        $data = OcHarmFactor::where($where)
+        $data = OcHarmFactorModel::where($where)
             ->limit($offset, $pageSize)
             ->select();
 
@@ -615,9 +615,9 @@ class OccupationalService {
 
 
 
-        $count = OcTestPlan::where($where)->count();
+        $count = OcTestPlanModel::where($where)->count();
 
-        $data = OcTestPlan::with([
+        $data = OcTestPlanModel::with([
             'user',
             'department',
             'job'
@@ -689,7 +689,7 @@ class OccupationalService {
 //            }
             $params['test_item'] = Job::where('id',$params['job_id'])
                 ->value('harm_factor_id');
-            OcTestPlan::create($params);
+            OcTestPlanModel::create($params);
 //
         } catch (\Exception $e) {
             return result_failed($e->getMessage());
@@ -703,7 +703,7 @@ class OccupationalService {
     {
 
         try {
-            $data = OcTestPlan::get($params['id']);
+            $data = OcTestPlanModel::get($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }

@@ -4,7 +4,7 @@ namespace app\common\service;
 
 use app\common\constant\UploadConstant;
 use app\common\model\enterprise\Company;
-use app\common\model\enterprise\UserFollowPhoto;
+use app\common\model\enterprise\UserFollowPhotoModel;
 use app\common\model\UserModel;
 use Overtrue\Pinyin\Pinyin;
 use think\facade\Db;
@@ -427,7 +427,7 @@ class UserService
 //            $where['username'] = ['like', "%{$params['username']}%"];
 //        }
 
-        $count = UserFollowPhoto::with([
+        $count = UserFollowPhotoModel::with([
             'companyArea',
             'proposerUser',
             'companyDevice',
@@ -435,7 +435,7 @@ class UserService
             ->where($where)
             ->count();
 
-        $data = UserFollowPhoto::with([
+        $data = UserFollowPhotoModel::with([
             'companyArea',
             'proposerUser',
             'auditUser',
@@ -446,7 +446,7 @@ class UserService
 //            ->order('job_id','desc')
             ->select();
 
-        $auditStatusArr = UserFollowPhoto::AUDIT_STATUS_ARR;
+        $auditStatusArr = UserFollowPhotoModel::AUDIT_STATUS_ARR;
         $data = collection($data)->toArray();
         foreach ($data as &$v) {
             $v['audit_status_string'] = $auditStatusArr[$v['audit_status']] ?? '';
@@ -474,7 +474,7 @@ class UserService
 
     public function followPhotoDetail($id)
     {
-        $data = UserFollowPhoto::find($id);
+        $data = UserFollowPhotoModel::find($id);
         if (!$data) {
             return result_failed("数据不存在");
         }
@@ -529,7 +529,7 @@ class UserService
         try {
 
             $params['add_time'] = date('Y-m-d H:i:s');
-            $params['audit_status'] = UserFollowPhoto::AUDIT_STATUS_AUDIT_WAIT;
+            $params['audit_status'] = UserFollowPhotoModel::AUDIT_STATUS_AUDIT_WAIT;
 //            $params['integral_num'] = 6;
 
             Db::name('user_follow_photo')->insert($params);
@@ -552,7 +552,7 @@ class UserService
         Db::startTrans();
         try {
 
-            $data = UserFollowPhoto::find($params['id']);
+            $data = UserFollowPhotoModel::find($params['id']);
             if (!$data) {
                 throw new \Exception("未发现该数据");
             }

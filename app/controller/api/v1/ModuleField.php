@@ -5,8 +5,8 @@ namespace app\controller\api\v1;
 
 use app\controller\api\ApiBase;
 use app\common\constant\IdentifyTableConstant;
-use app\common\model\enterprise\UserModuleAllField;
-use app\common\model\enterprise\UserModuleIdentifyField;
+use app\common\model\enterprise\UserModuleAllFieldModel;
+use app\common\model\enterprise\UserModuleIdentifyFieldModel;
 use app\common\service\JwtService;
 
 /**
@@ -41,13 +41,13 @@ class ModuleField extends ApiBase
         $checked = '1,2,3,4';
 
         try {
-            $data = UserModuleIdentifyField::where([
+            $data = UserModuleIdentifyFieldModel::where([
                 'company_id' => 0,
                 'module_name' => $moduleName,
             ])->select();
             if (!$data) {
 
-                UserModuleIdentifyField::create([
+                UserModuleIdentifyFieldModel::create([
                     'company_id'    => 0,
                     'module_name'   => $moduleName,
                     'checked_field' => $checked,
@@ -101,7 +101,7 @@ class ModuleField extends ApiBase
         $moduleArr  = IdentifyTableConstant::ALL_MODULE;
         $moduleName = $moduleArr[$moduleId];
 
-        $all = UserModuleAllField::where('module_name',$moduleName)
+        $all = UserModuleAllFieldModel::where('module_name',$moduleName)
             ->field([
                 'id',
                 'field_name as name',
@@ -111,7 +111,7 @@ class ModuleField extends ApiBase
 
         $all = collection($all)->toArray();
 
-        $userChecked = UserModuleIdentifyField::where([
+        $userChecked = UserModuleIdentifyFieldModel::where([
             'company_id'  => $companyId,
             'user_id'     => $userid,
             'module_name' => $moduleName,
@@ -124,7 +124,7 @@ class ModuleField extends ApiBase
 
         if (empty($userCheckArr)) {
 
-            $commonHas = UserModuleIdentifyField::where([
+            $commonHas = UserModuleIdentifyFieldModel::where([
                 'company_id'  => 0,
                 'module_name' => $moduleName,
             ])->value('checked_field');
@@ -164,7 +164,7 @@ class ModuleField extends ApiBase
         $moduleArr  = IdentifyTableConstant::ALL_MODULE;
         $moduleName = $moduleArr[$moduleId];
 
-        $data = UserModuleIdentifyField::where([
+        $data = UserModuleIdentifyFieldModel::where([
             'company_id'  => $companyId,
             'user_id'     => $userid,
             'module_name' => $moduleName,
@@ -174,7 +174,7 @@ class ModuleField extends ApiBase
             $data->checked_field = $checkedIds;
             $data->save();
         } else {
-            UserModuleIdentifyField::create([
+            UserModuleIdentifyFieldModel::create([
                 'company_id'    => $companyId,
                 'user_id'       => $userid,
                 'module_name'   => $moduleName,

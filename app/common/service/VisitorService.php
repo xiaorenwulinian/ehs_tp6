@@ -2,7 +2,7 @@
 
 namespace app\common\service;
 
-use app\common\model\enterprise\Visitor;
+use app\common\model\enterprise\VisitorModel;
 use app\common\traits\SingletonTrait;
 
 
@@ -30,9 +30,9 @@ class VisitorService {
             $where['visitor_name'] = ['like', "%{$params['visitor_name']}%"];
         }
 
-        $count = Visitor::where($where)->count();
+        $count = VisitorModel::where($where)->count();
 
-        $data = Visitor::where($where)
+        $data = VisitorModel::where($where)
 //            ->with('job')
 //            ->field('sort,is_deleted',true)
             ->limit($offset, $pageSize)
@@ -64,7 +64,7 @@ class VisitorService {
             $params['arrive_time'] = date('Y-m-d H:i:s');
             $params['bracelet_status'] = 1;
 
-            Visitor::create($params);
+            VisitorModel::create($params);
 
             // todo push info to bind bracelet
 
