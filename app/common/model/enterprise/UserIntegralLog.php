@@ -7,7 +7,7 @@ use think\Model;
 
 class UserIntegralLog extends Model
 {
-    
+
 
     // 表名
     protected $name = 'user_integral_log';
