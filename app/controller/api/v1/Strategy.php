@@ -81,7 +81,7 @@ class Strategy extends ApiBase
     public function goalIndex()
     {
         $params = $this->request->param();
-
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
         $ret = (new StrategyService())->goalIndex($params);
 
         return json($ret);
@@ -122,7 +122,7 @@ class Strategy extends ApiBase
     public function goalDelete()
     {
         $params = $this->request->param();
-
+        $params['company_id'] = JwtService::getInstance()->getCompanyId();
         $ret = (new StrategyService())->goalDelete($params);
 
         return json($ret);

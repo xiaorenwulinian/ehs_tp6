@@ -25,15 +25,15 @@ class StrategyService {
 
 //        $where['is_deleted'] = ['=', 0];
         $where['company_id'] = ['=', $params['company_id']];
-        $where['type'] = ['=', $params['type']];
-
-     /*   if (!empty($params['avoid_name'])) {
-            $where['avoid_name'] = ['like', "%{$params['avoid_name']}%"];
-        }*/
+//        $where['type'] = ['=', $params['type']];
 
         $count = StrategyGoalModel::where($where)->count();
 
-        $data = StrategyGoalModel::where($where)
+        $data = StrategyGoalModel::with([
+            'user',
+            'department',
+        ])
+        ->where($where)
 //            ->with('job')
 //            ->field('sort,is_deleted',true)
             ->limit($offset, $pageSize)
@@ -43,12 +43,20 @@ class StrategyService {
         $newData = [];
 
         foreach ($data as $v) {
-            $temp = $v;
-//            $temp['job_name'] = $v['job']['job_name'] ?? '';
+            $v['director_name'] = $v['user']['username'] ?? '';
+            $v['username'] = $v['user']['username'] ?? '';
+            $v['level'] = $v['level'] == 1 ? '公司' : '部门';
+            if ($v['type'] ==1){
+                $v['type'] = '环境';
+            }elseif($v['type'] ==2){
+                $v['type'] = '职业健康安全';
+            }else{
+                $v['type'] = '能源';
+            }
 
-//            unset($temp['is_deleted']);
-//            unset($temp['job']);
-            array_push($newData, $temp);
+            unset($v['user']);
+            unset($v['department']);
+            array_push($newData, $v);
         }
 
         $ret = [
