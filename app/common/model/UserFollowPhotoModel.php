@@ -77,37 +77,30 @@ class UserFollowPhotoModel extends Model
 
     public function company()
     {
-        return $this->belongsTo('company','company_id','id');
+        return $this->belongsTo(CompanyModel::class,'company_id','id');
     }
 
     public function user()
     {
-        return $this->belongsTo('user','proposer_id','id');
+        return $this->belongsTo(UserModel::class,'proposer_id','id');
     }
 
     public function proposerUser()
     {
-        return $this->belongsTo('user','proposer_id','id');
+        return $this->belongsTo(UserModel::class,'proposer_id','id');
     }
 
     public function auditUser()
     {
-        return $this->belongsTo('user','proposer_id','id');
+        return $this->belongsTo(UserModel::class,'proposer_id','id');
     }
 
-    public function companyDevice()
-    {
-        return $this->belongsTo('companyDevice','device_id','id');
-    }
 
     public function companyArea()
     {
-        return $this->belongsTo('companyArea','area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class,'area_id','id');
     }
-    public function riskType()
-    {
-        return $this->belongsTo('riskType','risk_type','id');
-    }
+
 
     public function riskLevel()
     {

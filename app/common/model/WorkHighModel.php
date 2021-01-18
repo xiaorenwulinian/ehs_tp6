@@ -72,7 +72,7 @@ class WorkHighModel extends Model
 
     public function companyArea()
     {
-        return $this->belongsTo(CompanyArea::class, 'company_area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class, 'company_area_id','id');
     }
 
 }

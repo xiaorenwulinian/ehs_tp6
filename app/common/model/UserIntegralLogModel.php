@@ -23,12 +23,12 @@ class UserIntegralLogModel extends Model
 
     public function company()
     {
-        return $this->belongsTo('company','company_id','company_id');
+        return $this->belongsTo(CompanyModel::class,'company_id','company_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('user','user_id','user_id');
+        return $this->belongsTo(UserModel::class,'user_id','user_id');
     }
     
 

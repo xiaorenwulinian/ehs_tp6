@@ -33,7 +33,7 @@ class JobQualifyModel extends Model
 
     public function job()
     {
-        return $this->belongsTo('job', 'job_id', 'id');
+        return $this->belongsTo(JobModel::class, 'job_id', 'id');
     }
 
 

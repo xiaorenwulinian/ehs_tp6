@@ -44,17 +44,17 @@ class EhsPointModel extends Model
 
     public function job()
     {
-        return $this->belongsTo('job','job_id','id');
+        return $this->belongsTo(JobModel::class,'job_id','id');
     }
 
     public function companyArea()
     {
-        return $this->belongsTo('companyArea','company_area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class,'company_area_id','id');
     }
 
     public function ehsPointCheckTime()
     {
-        return $this->belongsTo('ehsPointCheckTime','ehs_point_check_time_id','id');
+        return $this->belongsTo(EhsPointCheckTimeModel::class,'ehs_point_check_time_id','id');
     }
 
 

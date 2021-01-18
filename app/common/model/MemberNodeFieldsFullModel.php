@@ -77,10 +77,5 @@ class MemberNodeFieldsFullModel extends Model
         return $ret;
     }
 
-    public function membernode()
-    {
-
-        return $this->belongsTo('MemberNode', 'node_id','node_id')->setEagerlyType(0);
-    }
 
 }

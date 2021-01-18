@@ -43,7 +43,7 @@ class LabelModel extends Model
     public function configCategory()
     {
 //        return $this->belongsTo("configCategory",'cate_name_id','config_category_id');
-        return $this->hasOne("configCategory",'config_category_id','cate_name_id');
+        return $this->hasOne(ConfigCategoryModel::class,'config_category_id','id');
     }
 
 

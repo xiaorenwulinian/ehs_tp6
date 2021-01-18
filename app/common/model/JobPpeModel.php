@@ -8,9 +8,6 @@ use think\Model;
 class JobPpeModel extends Model
 {
 
-    
-
-    
 
     // 表名
     protected $name = 'job_ppe';
@@ -22,18 +19,6 @@ class JobPpeModel extends Model
     protected $createTime = false;
     protected $updateTime = false;
     protected $deleteTime = false;
-
- /*   public function job()
-    {
-        return $this->belongsTo('job','job_id','id');
-    }*/
-    
-
-    
-
-
-
-
 
 
 

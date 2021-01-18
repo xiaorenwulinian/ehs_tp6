@@ -34,12 +34,12 @@ class VisitorModel extends Model
 
     public function companyArea()
     {
-        return $this->belongsTo('company_area','company_area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class,'company_area_id','id');
     }
 
     public function company()
     {
-        return $this->belongsTo('company','company_id','company_id');
+        return $this->belongsTo(CompanyAreaModel::class,'company_id','company_id');
     }
 
 

@@ -18,8 +18,4 @@ class JobAbilityModel extends Model
     // 自动写入时间戳字段
     protected $autoWriteTimestamp = false;
 
-    public function company()
-    {
-        return $this->belongsTo('company','company_id','company_id');
-    }
 }

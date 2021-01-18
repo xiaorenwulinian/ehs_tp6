@@ -49,12 +49,8 @@ class JobAvoidModel extends Model
 
     public function job()
     {
-        return $this->belongsTo("job",'job_id','job_id');
+        return $this->belongsTo(JobModel::class,'job_id','id');
     }
 
-    public function company()
-    {
-        return $this->belongsTo("company","company_id","company_id");
-    }
 
 }

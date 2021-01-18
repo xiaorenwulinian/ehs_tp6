@@ -42,21 +42,21 @@ class JobModel extends Model
 
     public function ehsPoint()
     {
-        return $this->hasMany('ehsPoint','job_id','id');
+        return $this->hasMany(EhsPointModel::class,'job_id','id');
     }
     public function company()
     {
-        return $this->belongsTo('company','company_id','id');
+        return $this->belongsTo(CompanyModel::class,'company_id','id');
     }
 
     public function department()
     {
-        return $this->belongsTo('department','department_id','id');
+        return $this->belongsTo(DepartmentModel::class,'department_id','id');
     }
 
     public function companyArea()
     {
-        return $this->belongsTo('companyArea','company_area_id','id');
+        return $this->belongsTo(CompanyAreaModel::class,'company_area_id','id');
     }
 
 
