@@ -28,7 +28,6 @@ class StrategyService {
 
         $data = StrategyGoalModel::with([
             'user',
-            'department',
         ])
         ->where($where)
 //            ->with('job')
@@ -39,10 +38,10 @@ class StrategyService {
 
         $newData = [];
 
-        foreach ($data as $v) {
-            $v['director_name'] = $v['user']['username'] ?? '';
-            $v['username'] = $v['user']['username'] ?? '';
+        foreach ($data as &$v) {
+            $v['director'] = $v['user']['username'] ?? '';
             $v['level'] = $v['level'] == 1 ? '公司' : '部门';
+
             if ($v['type'] ==1){
                 $v['type'] = '环境';
             }elseif($v['type'] ==2){
@@ -52,7 +51,7 @@ class StrategyService {
             }
 
             unset($v['user']);
-            unset($v['department']);
+//            unset($v['department']);
             array_push($newData, $v);
         }
 
